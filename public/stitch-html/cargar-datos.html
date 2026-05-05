@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-container": "#e9f0ff",
+                      "surface-container-highest": "#e1e2ed",
+                      "surface-container-high": "#e7e7f3",
+                      "surface-tint": "#0053db",
+                      "tertiary-container": "#5e6e85",
+                      "outline-variant": "#c3c6d7",
+                      "error-container": "#ffdad6",
+                      "surface-container-low": "#f3f3fe",
+                      "tertiary": "#46566c",
+                      "on-surface": "#191b23",
+                      "primary-fixed": "#dbe1ff",
+                      "on-secondary-fixed": "#131b2e",
+                      "on-primary-container": "#eeefff",
+                      "on-primary-fixed": "#00174b",
+                      "on-background": "#191b23",
+                      "surface-container": "#ededf9",
+                      "on-tertiary-fixed": "#0b1c30",
+                      "on-tertiary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-primary-fixed-variant": "#003ea8",
+                      "tertiary-fixed": "#d3e4fe",
+                      "secondary-fixed": "#dae2fd",
+                      "on-surface-variant": "#434655",
+                      "on-tertiary-fixed-variant": "#38485d",
+                      "primary-container": "#2563eb",
+                      "inverse-surface": "#2e3039",
+                      "tertiary-fixed-dim": "#b7c8e1",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-fixed-dim": "#bec6e0",
+                      "primary": "#004ac6",
+                      "outline": "#737686",
+                      "on-error-container": "#93000a",
+                      "on-secondary-container": "#5c647a",
+                      "inverse-primary": "#b4c5ff",
+                      "secondary": "#565e74",
+                      "surface": "#faf8ff",
+                      "background": "#faf8ff",
+                      "on-primary": "#ffffff",
+                      "inverse-on-surface": "#f0f0fb",
+                      "on-secondary-fixed-variant": "#3f465c",
+                      "secondary-container": "#dae2fd",
+                      "surface-dim": "#d9d9e5",
+                      "surface-bright": "#faf8ff",
+                      "error": "#ba1a1a",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "surface-variant": "#e1e2ed"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "xl": "48px",
+                      "container-max": "1440px",
+                      "xs": "4px",
+                      "md": "16px",
+                      "sm": "8px",
+                      "gutter": "24px",
+                      "lg": "24px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Inter"],
+                      "h1": ["Inter"],
+                      "h3": ["Inter"],
+                      "h2": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "data-mono": ["Inter"],
+                      "body-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "body-lg": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                      "h1": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "h3": ["18px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600"}],
+                      "h2": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "data-mono": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                      "body-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background selection:bg-primary-fixed">
+<!-- SideNavBar Component -->
+<nav class="fixed left-0 top-0 h-screen w-72 bg-slate-50 border-r border-slate-200 flex flex-col py-8 z-40">
+<div class="px-8 mb-10">
+<h1 class="text-xl font-black text-slate-900 tracking-tighter uppercase">Análisis al Instante</h1>
+<p class="font-sans text-xs font-medium tracking-tight text-slate-500 mt-1 uppercase">Analytical Authority</p>
+</div>
+<div class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-slate-600 px-6 py-3 hover:bg-slate-100 transition-colors duration-150 font-sans text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+                Home
+            </a>
+<a class="flex items-center gap-3 bg-blue-50 text-blue-700 border-r-4 border-blue-600 px-6 py-3 transition-colors duration-150 font-sans text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
+                Upload Data
+            </a>
+<a class="flex items-center gap-3 text-slate-600 px-6 py-3 hover:bg-slate-100 transition-colors duration-150 font-sans text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+                AI Insights
+            </a>
+<a class="flex items-center gap-3 text-slate-600 px-6 py-3 hover:bg-slate-100 transition-colors duration-150 font-sans text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 text-slate-600 px-6 py-3 hover:bg-slate-100 transition-colors duration-150 font-sans text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Data Settings
+            </a>
+</div>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 bg-primary text-on-primary rounded-lg font-sans text-sm font-semibold hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="ios_share">ios_share</span>
+                Export Report
+            </button>
+<div class="mt-6 space-y-1">
+<a class="flex items-center gap-3 text-slate-600 px-2 py-2 hover:bg-slate-100 rounded-md transition-colors text-xs font-medium" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="help">help</span>
+                    Help Center
+                </a>
+<a class="flex items-center gap-3 text-slate-600 px-2 py-2 hover:bg-slate-100 rounded-md transition-colors text-xs font-medium" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="person">person</span>
+                    Account
+                </a>
+</div>
+</div>
+</nav>
+<!-- TopAppBar Component -->
+<header class="fixed top-0 right-0 w-[calc(100%-288px)] h-16 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-8">
+<div class="flex items-center gap-8">
+<nav class="flex items-center gap-6">
+<a class="text-slate-500 hover:text-blue-700 transition-colors font-sans text-sm font-semibold" href="#">Overview</a>
+<a class="text-slate-500 hover:text-blue-700 transition-colors font-sans text-sm font-semibold" href="#">History</a>
+<a class="text-slate-500 hover:text-blue-700 transition-colors font-sans text-sm font-semibold" href="#">Projects</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-slate-400 text-[20px]" data-icon="search">search</span>
+<input class="bg-slate-100 border-none rounded-full py-2 pl-10 pr-4 text-xs w-64 focus:ring-2 focus:ring-blue-600 outline-none transition-all" placeholder="Buscar datasets..." type="text"/>
+</div>
+<button class="material-symbols-outlined p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors" data-icon="settings">settings</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-slate-200 ml-2">
+<img class="w-full h-full object-cover" data-alt="Professional corporate headshot of a data analyst in a clean minimalist office environment. The person is wearing professional business casual attire. The lighting is soft and natural, contributing to a high-end corporate analytical authority vibe with a soft blue and white color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB__cyz620k6dHGGK6pRw1nbkqcPskZPam5WH5pjsrTGuvdTomlr_xos55wbTwA1rb-FMczizx65PPBopBlW2PZYlcM0BtngMuqis31lSJfjS5XPwPdUPPi-uFSlDA2iKPNxC8qOwgXqLV3khzv7OXeHiVXNLVxHk4e9j8AvJUa69KCiVyJu2qAmnKqEBU_fQMP7nVAGIqtMv3rcTvKUc9c4Kj3qMGvCNCa-bKxmnJTzm_39JPtFdq-biPlL-cmH5mTmOooFbDofZ6V"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-72 pt-24 pb-16 px-12 min-h-screen">
+<div class="max-w-5xl mx-auto">
+<header class="mb-12">
+<h2 class="font-h1 text-h1 text-on-background mb-2">Subir Datos</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Importe sus archivos para que nuestra IA genere análisis estadísticos avanzados al instante.</p>
+</header>
+<!-- Grid Layout for Upload & Active Analysis -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left: Upload Zone -->
+<div class="lg:col-span-7">
+<div class="bg-white rounded-xl p-10 border-2 border-dashed border-slate-200 hover:border-primary transition-all group flex flex-col items-center justify-center min-h-[400px] text-center shadow-sm relative overflow-hidden">
+<!-- Decorative background element -->
+<div class="absolute -top-24 -right-24 w-48 h-48 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors"></div>
+<div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[40px]" data-icon="cloud_upload">cloud_upload</span>
+</div>
+<h3 class="font-h2 text-h2 text-on-surface mb-2">Arrastra y suelta tus archivos</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-8 max-w-xs mx-auto">Soporta formatos .csv, .xlsx y .json. Tamaño máximo de archivo 100MB.</p>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary px-8 py-3 rounded-lg font-sans text-sm font-bold shadow-lg shadow-blue-200 hover:shadow-xl hover:opacity-95 active:scale-95 transition-all">
+                                Seleccionar archivos
+                            </button>
+</div>
+<div class="mt-12 grid grid-cols-3 gap-8 w-full border-t border-slate-100 pt-8">
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-slate-400 mb-2" data-icon="description">description</span>
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">CSV</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-slate-400 mb-2" data-icon="table_chart">table_chart</span>
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Excel</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-slate-400 mb-2" data-icon="data_object">data_object</span>
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">JSON</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Analysis State -->
+<div class="lg:col-span-5 space-y-6">
+<!-- AI Insight Component (Active State) -->
+<div class="bg-white rounded-xl p-8 border border-violet-100 shadow-sm relative overflow-hidden group">
+<!-- Subtle AI Glow -->
+<div class="absolute inset-0 border border-violet-200/50 rounded-xl bg-gradient-to-br from-violet-50/50 to-transparent pointer-events-none"></div>
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-violet-600 text-white rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div>
+<h4 class="font-h3 text-h3 text-slate-900 leading-tight">Procesando dataset</h4>
+<p class="text-[11px] font-bold text-violet-600 uppercase tracking-widest">AI Engine Active</p>
+</div>
+</div>
+<span class="text-xs font-data-mono text-slate-400">45%</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-2 bg-slate-100 rounded-full mb-8 overflow-hidden">
+<div class="h-full bg-violet-600 rounded-full w-[45%]"></div>
+</div>
+<!-- Status Messages -->
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-teal-500 text-sm" data-icon="check_circle" data-weight="fill">check_circle</span>
+<span class="font-body-sm text-body-sm text-slate-700">Lectura de columnas completada</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-4 h-4 flex items-center justify-center">
+<div class="w-2 h-2 bg-violet-600 rounded-full animate-pulse"></div>
+</div>
+<span class="font-body-sm text-body-sm text-slate-900 font-semibold">Calculando estadísticas descriptivas...</span>
+</div>
+<div class="flex items-center gap-3 opacity-40">
+<span class="material-symbols-outlined text-slate-300 text-sm" data-icon="pending">pending</span>
+<span class="font-body-sm text-body-sm text-slate-600">Identificando patrones de tendencia</span>
+</div>
+<div class="flex items-center gap-3 opacity-40">
+<span class="material-symbols-outlined text-slate-300 text-sm" data-icon="pending">pending</span>
+<span class="font-body-sm text-body-sm text-slate-600">Generando visualizaciones recomendadas</span>
+</div>
+</div>
+</div>
+<!-- Recent Activity Card -->
+<div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h4 class="font-label-caps text-label-caps text-slate-500">CARGAS RECIENTES</h4>
+<a class="text-xs font-semibold text-blue-600 hover:underline" href="#">Ver todo</a>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-slate-100 rounded flex items-center justify-center text-slate-500">
+<span class="material-symbols-outlined text-[18px]" data-icon="table_chart">table_chart</span>
+</div>
+<div>
+<p class="text-xs font-bold text-slate-800">ventas_q4_2023.csv</p>
+<p class="text-[10px] text-slate-400">Hace 2 horas • 1.2 MB</p>
+</div>
+</div>
+<span class="bg-teal-50 text-teal-700 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tight">Completado</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-slate-100 rounded flex items-center justify-center text-slate-500">
+<span class="material-symbols-outlined text-[18px]" data-icon="description">description</span>
+</div>
+<div>
+<p class="text-xs font-bold text-slate-800">metrics_user_flow.xlsx</p>
+<p class="text-[10px] text-slate-400">Ayer • 4.5 MB</p>
+</div>
+</div>
+<span class="bg-teal-50 text-teal-700 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-tight">Completado</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Contextual Info / AI Capability Showcase -->
+<div class="mt-16 border-t border-slate-200 pt-12">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="flex gap-4">
+<div class="text-blue-600">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+</div>
+<div>
+<h5 class="text-sm font-bold text-slate-900 mb-1">Privacidad de Nivel Empresarial</h5>
+<p class="text-xs text-slate-500 leading-relaxed">Sus datos se cifran en tránsito y en reposo. Nunca utilizamos datos privados para entrenar modelos públicos.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="text-blue-600">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+</div>
+<div>
+<h5 class="text-sm font-bold text-slate-900 mb-1">Mapeo de Datos Automático</h5>
+<p class="text-xs text-slate-500 leading-relaxed">Nuestra IA detecta automáticamente tipos de datos, fechas y categorías geográficas sin configuración manual.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="text-blue-600">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+</div>
+<div>
+<h5 class="text-sm font-bold text-slate-900 mb-1">Insights Predictivos</h5>
+<p class="text-xs text-slate-500 leading-relaxed">Reciba proyecciones basadas en tendencias históricas inmediatamente después de que finalice la carga.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Component -->
+<footer class="ml-72 relative w-full py-12 bg-slate-50 border-t border-slate-200">
+<div class="max-w-5xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center">
+<div class="mb-4 md:mb-0">
+<span class="text-sm font-bold text-slate-700">Análisis al Instante</span>
+<p class="font-sans text-xs text-slate-500 mt-1">© 2024 Análisis al Instante. Professional Data Intelligence.</p>
+</div>
+<div class="flex gap-8">
+<a class="font-sans text-xs text-slate-500 hover:text-blue-600 transition-colors" href="#">Privacy Policy</a>
+<a class="font-sans text-xs text-slate-500 hover:text-blue-600 transition-colors" href="#">Terms of Service</a>
+<a class="font-sans text-xs text-slate-500 hover:text-blue-600 transition-colors" href="#">API Documentation</a>
+</div>
+</div>
+</footer>
+</body></html>

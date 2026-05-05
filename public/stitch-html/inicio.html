@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#e9f0ff",
+                    "surface-container-highest": "#e1e2ed",
+                    "surface-container-high": "#e7e7f3",
+                    "surface-tint": "#0053db",
+                    "tertiary-container": "#5e6e85",
+                    "outline-variant": "#c3c6d7",
+                    "error-container": "#ffdad6",
+                    "surface-container-low": "#f3f3fe",
+                    "tertiary": "#46566c",
+                    "on-surface": "#191b23",
+                    "primary-fixed": "#dbe1ff",
+                    "on-secondary-fixed": "#131b2e",
+                    "on-primary-container": "#eeefff",
+                    "on-primary-fixed": "#00174b",
+                    "on-background": "#191b23",
+                    "surface-container": "#ededf9",
+                    "on-tertiary-fixed": "#0b1c30",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "tertiary-fixed": "#d3e4fe",
+                    "secondary-fixed": "#dae2fd",
+                    "on-surface-variant": "#434655",
+                    "on-tertiary-fixed-variant": "#38485d",
+                    "primary-container": "#2563eb",
+                    "inverse-surface": "#2e3039",
+                    "tertiary-fixed-dim": "#b7c8e1",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed-dim": "#bec6e0",
+                    "primary": "#004ac6",
+                    "outline": "#737686",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#5c647a",
+                    "inverse-primary": "#b4c5ff",
+                    "secondary": "#565e74",
+                    "surface": "#faf8ff",
+                    "background": "#faf8ff",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#f0f0fb",
+                    "on-secondary-fixed-variant": "#3f465c",
+                    "secondary-container": "#dae2fd",
+                    "surface-dim": "#d9d9e5",
+                    "surface-bright": "#faf8ff",
+                    "error": "#ba1a1a",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "surface-variant": "#e1e2ed"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "xl": "48px",
+                    "container-max": "1440px",
+                    "xs": "4px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "gutter": "24px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "h1": ["Inter"],
+                    "h3": ["Inter"],
+                    "h2": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "data-mono": ["Inter"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                    "h1": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+                    "h3": ["18px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600"}],
+                    "h2": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "700"}],
+                    "data-mono": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #faf8ff; color: #191b23; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(226, 232, 240, 0.8); }
+        .hero-gradient { background: radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.05) 0%, transparent 70%); }
+    </style>
+</head>
+<body class="font-body-lg">
+<!-- Navigation suppression: This is a landing/onboarding focused page, so TopAppBar and SideNav are contextually omitted for focused conversion, except for the simplified Brand Header. -->
+<header class="fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-md z-50 border-b border-slate-100">
+<div class="max-w-7xl mx-auto px-8 h-full flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<span class="text-xl font-black text-slate-900 tracking-tighter">Análisis al Instante</span>
+</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="font-label-caps text-slate-500 hover:text-primary transition-colors" href="#">Funciones</a>
+<a class="font-label-caps text-slate-500 hover:text-primary transition-colors" href="#">Soluciones</a>
+<a class="font-label-caps text-slate-500 hover:text-primary transition-colors" href="#">Precios</a>
+<button class="bg-primary text-white px-6 py-2 rounded-lg font-h3 text-sm hover:opacity-90 transition-all">Empezar Ahora</button>
+</nav>
+</div>
+</header>
+<main class="pt-32 pb-24 overflow-x-hidden">
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-8 relative">
+<div class="hero-gradient absolute inset-0 -z-10"></div>
+<div class="text-center max-w-4xl mx-auto space-y-6">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-caps text-[10px]">
+<span class="material-symbols-outlined text-xs">auto_awesome</span>
+                    INTELIGENCIA ARTIFICIAL APLICADA
+                </div>
+<h1 class="font-h1 text-slate-900">Transforme sus hojas de cálculo en <span class="text-primary">Dashboards de Elite</span></h1>
+<p class="font-body-lg text-slate-600 max-w-2xl mx-auto">
+                    Suba sus archivos CSV o Excel y deje que nuestra IA genere análisis profundos, visualizaciones dinámicas y reportes ejecutivos en segundos. Sin fórmulas, sin complicaciones.
+                </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+<button class="bg-primary text-white px-8 py-4 rounded-xl font-h3 text-lg flex items-center gap-2 shadow-xl shadow-primary/20 hover:scale-105 transition-transform">
+                        Comenzar Análisis
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-xl font-h3 text-lg hover:bg-slate-50 transition-colors">
+                        Ver Demo
+                    </button>
+</div>
+</div>
+<!-- UI Preview / Bento Grid -->
+<div class="mt-20 grid grid-cols-12 gap-6">
+<!-- Main Dashboard Preview -->
+<div class="col-span-12 lg:col-span-8 glass-card rounded-2xl overflow-hidden shadow-2xl p-4">
+<div class="bg-slate-50 rounded-lg p-6 h-[500px] flex flex-col gap-6">
+<div class="flex justify-between items-center">
+<div class="space-y-1">
+<h3 class="font-h2 text-xl text-slate-900">Resumen Ejecutivo de Ventas</h3>
+<p class="font-body-sm text-slate-500">Datos actualizados hace 2 minutos</p>
+</div>
+<div class="flex gap-2">
+<div class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-400">filter_list</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-400">share</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+<p class="font-label-caps text-slate-400 mb-2">ROI TOTAL</p>
+<p class="font-h2 text-primary">+24.8%</p>
+</div>
+<div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+<p class="font-label-caps text-slate-400 mb-2">CONVERSIÓN</p>
+<p class="font-h2 text-slate-900">12.5%</p>
+</div>
+<div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+<p class="font-label-caps text-slate-400 mb-2">CHURN RATE</p>
+<p class="font-h2 text-error">1.2%</p>
+</div>
+</div>
+<div class="flex-1 bg-white rounded-xl border border-slate-100 shadow-sm relative overflow-hidden">
+<img class="w-full h-full object-cover opacity-90" data-alt="A sophisticated data visualization dashboard showing multiple line charts and area graphs with a clean blue and white palette. The interface is modern and minimalist, featuring soft shadows and professional typography. The lighting is bright and airy, suggesting a high-end SaaS software environment designed for corporate analysis." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOkXxGi7LtzhuuENdcZAtWqf7d81XnAozRnIDuSxg5CO5KU7ACC25dWYiGllPMduYJ6_EcclYJ2QhUxc1FtkiYYQWqFRAR2OEQ0RFw_p9o_e0mcI5w_O7BDb1FcmRNSeq8-ajvO4ZONseIEP8n-hgV9iG95QT01a5uCyZWg-jWuU6pmEL-G_oMweQjJrSPmMofbu62B4vbN9loVNmOkpbEQ3htMvSj0AhQdfK3PDp3K4029YLNLoYnGJePtCbhkuJZ7jwb4yf09U8R"/>
+<div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
+</div>
+</div>
+</div>
+<!-- Side Insights -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<!-- AI Insight Card -->
+<div class="glass-card rounded-2xl p-6 border-l-4 border-l-primary flex flex-col gap-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<span class="font-label-caps">AI INSIGHT</span>
+</div>
+<p class="font-h3 text-slate-800">"Se detectó una anomalía positiva en el segmento de clientes corporativos durante el último trimestre."</p>
+<p class="font-body-sm text-slate-500">Recomendación: Incrementar el presupuesto publicitario en LinkedIn un 15% para maximizar el alcance en el sector tecnológico.</p>
+</div>
+<!-- Quick Stats Card -->
+<div class="glass-card rounded-2xl p-6 flex-1 flex flex-col justify-center items-center text-center gap-2">
+<div class="w-16 h-16 bg-surface-container-low rounded-full flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-primary text-3xl">upload_file</span>
+</div>
+<h4 class="font-h3 text-slate-900">Procesado al Instante</h4>
+<p class="font-body-sm text-slate-500">Analizamos más de 500k filas en menos de 3 segundos con precisión militar.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Feature Highlights -->
+<section class="max-w-7xl mx-auto px-8 mt-32">
+<div class="grid md:grid-cols-3 gap-12">
+<div class="space-y-4">
+<div class="w-12 h-12 bg-blue-50 text-primary rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<h3 class="font-h2 text-xl text-slate-900">Instant Insights</h3>
+<p class="font-body-sm text-slate-600">Nuestra IA identifica automáticamente tendencias, correlaciones y valores atípicos sin que tenga que escribir una sola línea de código.</p>
+</div>
+<div class="space-y-4">
+<div class="w-12 h-12 bg-blue-50 text-primary rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">dashboard_customize</span>
+</div>
+<h3 class="font-h2 text-xl text-slate-900">Flexible Dashboards</h3>
+<p class="font-body-sm text-slate-600">Personalice cada widget. Arrastre y suelte los componentes para crear una narrativa visual que se adapte perfectamente a sus necesidades.</p>
+</div>
+<div class="space-y-4">
+<div class="w-12 h-12 bg-blue-50 text-primary rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<h3 class="font-h2 text-xl text-slate-900">Pro Exports</h3>
+<p class="font-body-sm text-slate-600">Exporte sus hallazgos en presentaciones PDF de alta calidad o informes interactivos listos para ser compartidos con la junta directiva.</p>
+</div>
+</div>
+</section>
+<!-- Trust Section -->
+<section class="mt-32 border-y border-slate-100 py-16 bg-slate-50/50">
+<div class="max-w-7xl mx-auto px-8">
+<p class="font-label-caps text-center text-slate-400 mb-12">CONFIADO POR LÍDERES EN DATOS</p>
+<div class="flex flex-wrap justify-center items-center gap-16 grayscale opacity-40">
+<span class="font-h2 text-slate-900 text-2xl tracking-tighter">DATACORE</span>
+<span class="font-h2 text-slate-900 text-2xl tracking-tighter">METRICLY</span>
+<span class="font-h2 text-slate-900 text-2xl tracking-tighter">ANALYTIX</span>
+<span class="font-h2 text-slate-900 text-2xl tracking-tighter">INSIGHTFLOW</span>
+<span class="font-h2 text-slate-900 text-2xl tracking-tighter">VIRTUE</span>
+</div>
+</div>
+</section>
+<!-- Call to Action Section -->
+<section class="max-w-7xl mx-auto px-8 mt-32">
+<div class="bg-primary-container rounded-[2.5rem] p-12 md:p-20 text-white flex flex-col md:flex-row items-center justify-between gap-12 overflow-hidden relative">
+<div class="space-y-6 relative z-10 max-w-xl">
+<h2 class="font-h1 text-4xl md:text-5xl text-white">¿Listo para desbloquear el poder de sus datos?</h2>
+<p class="text-white/80 font-body-lg">Únase a más de 5,000 analistas que han transformado su flujo de trabajo con Análisis al Instante. Empiece gratis hoy.</p>
+<div class="flex gap-4">
+<button class="bg-white text-primary px-8 py-4 rounded-xl font-h3 hover:bg-on-primary transition-colors">Crear Cuenta Gratis</button>
+<button class="border border-white/30 text-white px-8 py-4 rounded-xl font-h3 hover:bg-white/10 transition-colors">Solicitar Demo</button>
+</div>
+</div>
+<div class="relative z-10 w-full md:w-1/3">
+<div class="glass-card bg-white/10 border-white/20 p-8 rounded-2xl rotate-3 shadow-2xl">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-10 h-10 rounded-full bg-white/20"></div>
+<div class="space-y-1">
+<div class="w-24 h-2 bg-white/30 rounded"></div>
+<div class="w-16 h-2 bg-white/20 rounded"></div>
+</div>
+</div>
+<div class="space-y-3">
+<div class="w-full h-8 bg-white/10 rounded"></div>
+<div class="w-3/4 h-8 bg-white/10 rounded"></div>
+<div class="w-full h-8 bg-white/10 rounded"></div>
+</div>
+</div>
+</div>
+<!-- Abstract Background Ornament -->
+<div class="absolute -right-20 -bottom-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+</div>
+</section>
+</main>
+<footer class="bg-white border-t border-slate-100 py-16">
+<div class="max-w-7xl mx-auto px-8">
+<div class="flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="space-y-4 max-w-xs">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 bg-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[10px]" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<span class="text-lg font-black text-slate-900 tracking-tighter">Análisis al Instante</span>
+</div>
+<p class="font-body-sm text-slate-500">Inteligencia artificial profesional para la toma de decisiones basada en datos.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-12">
+<div class="space-y-4">
+<p class="font-label-caps text-slate-900">PRODUCTO</p>
+<ul class="space-y-2">
+<li><a class="font-body-sm text-slate-500 hover:text-primary transition-colors" href="#">Funciones</a></li>
+<li><a class="font-body-sm text-slate-500 hover:text-primary transition-colors" href="#">Integraciones</a></li>
+<li><a class="font-body-sm text-slate-500 hover:text-primary transition-colors" href="#">Empresas</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<p class="font-label-caps text-slate-900">RECURSOS</p>
+<ul class="space-y-2">
+<li><a class="font-body-sm text-slate-500 hover:text-primary transition-colors" href="#">Documentación API</a></li>
+<li><a class="font-body-sm text-slate-500 hover:text-primary transition-colors" href="#">Blog de Análisis</a></li>
+<li><a class="font-body-sm text-slate-500 hover:text-primary transition-colors" href="#">Centro de Ayuda</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<p class="font-label-caps text-slate-900">LEGAL</p>
+<ul class="space-y-2">
+<li><a class="font-body-sm text-slate-500 hover:text-primary transition-colors" href="#">Privacidad</a></li>
+<li><a class="font-body-sm text-slate-500 hover:text-primary transition-colors" href="#">Términos</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="mt-16 pt-8 border-t border-slate-50 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-body-sm text-slate-400">© 2024 Análisis al Instante. Professional Data Intelligence.</p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer">public</span>
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer">mail</span>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#e9f0ff",
+                    "surface-container-highest": "#e1e2ed",
+                    "surface-container-high": "#e7e7f3",
+                    "surface-tint": "#0053db",
+                    "tertiary-container": "#5e6e85",
+                    "outline-variant": "#c3c6d7",
+                    "error-container": "#ffdad6",
+                    "surface-container-low": "#f3f3fe",
+                    "tertiary": "#46566c",
+                    "on-surface": "#191b23",
+                    "primary-fixed": "#dbe1ff",
+                    "on-secondary-fixed": "#131b2e",
+                    "on-primary-container": "#eeefff",
+                    "on-primary-fixed": "#00174b",
+                    "on-background": "#191b23",
+                    "surface-container": "#ededf9",
+                    "on-tertiary-fixed": "#0b1c30",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "tertiary-fixed": "#d3e4fe",
+                    "secondary-fixed": "#dae2fd",
+                    "on-surface-variant": "#434655",
+                    "on-tertiary-fixed-variant": "#38485d",
+                    "primary-container": "#2563eb",
+                    "inverse-surface": "#2e3039",
+                    "tertiary-fixed-dim": "#b7c8e1",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed-dim": "#bec6e0",
+                    "primary": "#004ac6",
+                    "outline": "#737686",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#5c647a",
+                    "inverse-primary": "#b4c5ff",
+                    "secondary": "#565e74",
+                    "surface": "#faf8ff",
+                    "background": "#faf8ff",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#f0f0fb",
+                    "on-secondary-fixed-variant": "#3f465c",
+                    "secondary-container": "#dae2fd",
+                    "surface-dim": "#d9d9e5",
+                    "surface-bright": "#faf8ff",
+                    "error": "#ba1a1a",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "surface-variant": "#e1e2ed"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "xl": "48px",
+                    "container-max": "1440px",
+                    "xs": "4px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "gutter": "24px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "h1": ["Inter"],
+                    "h3": ["Inter"],
+                    "h2": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "data-mono": ["Inter"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                    "h1": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "h3": ["18px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600"}],
+                    "h2": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "data-mono": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .ai-card-glow {
+            border: 1px solid transparent;
+            background-image: linear-gradient(#fff, #fff), linear-gradient(135deg, #2563eb33 0%, #7c3aed33 100%);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-lg">
+<!-- Sidebar Shell -->
+<aside class="fixed left-0 top-0 h-screen w-72 bg-slate-50 border-r border-slate-200 flex flex-col py-8 z-40">
+<div class="px-8 mb-10">
+<h1 class="text-xl font-black text-slate-900 tracking-tighter">Análisis al Instante</h1>
+<p class="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-600 mt-1">Analytical Authority</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center text-slate-600 px-6 py-3 hover:bg-slate-100 transition-colors duration-150 font-sans text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined mr-3">home</span> Home
+            </a>
+<a class="flex items-center text-slate-600 px-6 py-3 hover:bg-slate-100 transition-colors duration-150 font-sans text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined mr-3">upload_file</span> Upload Data
+            </a>
+<!-- Active State -->
+<a class="flex items-center bg-blue-50 text-blue-700 border-r-4 border-blue-600 px-6 py-3 font-sans text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined mr-3" style="font-variation-settings: 'FILL' 1;">psychology</span> AI Insights
+            </a>
+<a class="flex items-center text-slate-600 px-6 py-3 hover:bg-slate-100 transition-colors duration-150 font-sans text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span> Dashboard
+            </a>
+<a class="flex items-center text-slate-600 px-6 py-3 hover:bg-slate-100 transition-colors duration-150 font-sans text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined mr-3">settings</span> Data Settings
+            </a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full bg-primary text-white py-3 rounded-lg font-semibold text-sm shadow-sm hover:opacity-90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">download</span> Export Report
+            </button>
+<div class="mt-6 pt-6 border-t border-slate-200">
+<a class="flex items-center text-slate-500 hover:text-blue-600 text-xs py-2 transition-colors" href="#">
+<span class="material-symbols-outlined text-sm mr-2">help</span> Help Center
+                </a>
+<a class="flex items-center text-slate-500 hover:text-blue-600 text-xs py-2 transition-colors" href="#">
+<span class="material-symbols-outlined text-sm mr-2">person</span> Account
+                </a>
+</div>
+</div>
+</aside>
+<!-- Header Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-288px)] h-16 bg-white/80 backdrop-blur-md border-b border-slate-200 z-30 flex items-center justify-between px-8">
+<div class="flex items-center space-x-8">
+<nav class="flex items-center space-x-6">
+<a class="text-slate-500 font-sans text-sm font-semibold hover:text-blue-600 transition-colors" href="#">Overview</a>
+<a class="text-blue-600 font-sans text-sm font-semibold border-b-2 border-blue-600 pb-5 translate-y-[10px]" href="#">History</a>
+<a class="text-slate-500 font-sans text-sm font-semibold hover:text-blue-600 transition-colors" href="#">Projects</a>
+</nav>
+</div>
+<div class="flex items-center space-x-6">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="pl-10 pr-4 py-2 bg-slate-100 border-none rounded-full text-sm w-64 focus:ring-2 focus:ring-blue-600 transition-all" placeholder="Search insights..." type="text"/>
+</div>
+<div class="flex items-center space-x-3 border-l pl-6 border-slate-200">
+<button class="material-symbols-outlined text-slate-500 hover:text-blue-600 transition-colors">notifications</button>
+<button class="material-symbols-outlined text-slate-500 hover:text-blue-600 transition-colors">settings</button>
+<img alt="Analista de Datos" class="w-8 h-8 rounded-full border border-slate-200 object-cover" data-alt="A professional headshot of a data analyst in a bright, modern office setting. The individual is smiling slightly, conveying confidence and authority. The lighting is high-key and professional, with a shallow depth of field focusing on the subject. The overall aesthetic is clean, corporate, and minimalist, utilizing the blue and white brand colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZ8pfItER-XuUT3IMfvUP2N5qnYgyW0m_IRgnvFe-zk07AZCBIoybMfV3BnuxfcG5zbMFeYCggw_QvAE7q19EbOotIUBVSR5WBLBpqekQEgcrUgvG47yE129RnhGhPrG1vupq-8Fh46mw7zjWd_ZCZaAw8oYT3zA3sHAGEv_7nkS1ppFTmtZAQNJW-YA86yb9ilPF92witH-ReZeb5u36kCuCZ6wQz-V3wKMEY8LcVsoVI_JGfCRu9ySPPRAHw4n83YLzmmkHUyGtn"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-72 pt-24 pb-16 px-8 min-h-screen">
+<div class="max-w-5xl mx-auto">
+<!-- Feed Header -->
+<header class="mb-10 flex items-end justify-between">
+<div>
+<span class="text-label-caps text-primary uppercase tracking-widest mb-2 block">Sugerencias del Motor AI</span>
+<h2 class="text-h1 font-h1 text-on-background">Análisis Sugeridos</h2>
+<p class="text-body-lg text-on-surface-variant mt-2">Nuevos hallazgos basados en la actividad de datos de la última semana.</p>
+</div>
+<div class="flex bg-surface-container-low p-1 rounded-lg border border-outline-variant">
+<button class="px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-primary">RECIENTES</button>
+<button class="px-4 py-1.5 text-xs font-bold rounded-md text-on-surface-variant hover:text-on-surface">POPULARES</button>
+</div>
+</header>
+<!-- Scrollable Feed Grid -->
+<div class="grid grid-cols-1 gap-8">
+<!-- Card 1: Revenue Trend (Line Chart) -->
+<div class="ai-card-glow rounded-xl p-6 bg-white shadow-[0px_4px_20px_rgba(15,23,42,0.05)] transition-all hover:translate-y-[-4px] hover:shadow-[0px_10px_30px_rgba(15,23,42,0.1)] group">
+<div class="flex flex-col md:flex-row gap-8">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-4">
+<span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-[10px] font-bold tracking-tighter">FINANZAS</span>
+<span class="text-slate-400 text-[10px] font-medium uppercase tracking-tighter">Actualizado hace 2h</span>
+</div>
+<h3 class="text-h2 font-h2 text-on-background mb-3">Tendencia de Ingresos Trimestrales</h3>
+<div class="flex items-start gap-3 p-4 bg-slate-50 rounded-lg border-l-4 border-blue-600 mb-6">
+<span class="material-symbols-outlined text-blue-600 shrink-0" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<p class="text-body-sm text-on-surface-variant">
+                                    Se detectó un incremento del <span class="font-bold text-blue-700">14.2%</span> en las suscripciones Enterprise comparado con el trimestre anterior. La proyección sugiere un crecimiento sostenido para el próximo mes.
+                                </p>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-white px-6 py-2.5 rounded-lg font-bold text-sm hover:bg-primary-container transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">add_chart</span>
+                                    Agregar al Dashboard
+                                </button>
+<button class="text-slate-500 hover:text-blue-600 font-bold text-sm px-4 py-2.5 transition-colors">Explorar Datos</button>
+</div>
+</div>
+<div class="w-full md:w-80 h-48 bg-slate-50 rounded-xl border border-slate-100 overflow-hidden relative">
+<img alt="Gráfico de Líneas Financiero" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="A clean, minimalist line chart showing an upward financial trend. The chart uses a vibrant blue primary line against a grid of soft slate gray. The lighting is diffused and professional, typical of a modern business analytics interface. The background is a crisp white, following the minimalist corporate aesthetic of the brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuANQ5NbUnWD0jd4tB-fWlLmR_k9BZWX_rjbM_uYX29nJ_L9M6XBbieKWdWlGtqN-kH6MRQJdoN4HRYKkE0NCzFjGM271V16EolSTDN-H_0Z0pF57thpI0AqHyoQgnVWMTSz_rPyXzskdKReJAeG_yD7bnsUSewmO_c4CFBm9R7_gEKOxJqyBip9-X8LkFJpkCLOOoVh7h-fcUMAdQOJjHJk2y4rH1LlFanXK12BFDzpk6x6yMmxcisa8xindZB9uu07TdscUswuqeFD"/>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<span class="bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-black text-blue-600 border border-blue-100 shadow-sm">VISTA PREVIA</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Market Share (Pie Chart) -->
+<div class="ai-card-glow rounded-xl p-6 bg-white shadow-[0px_4px_20px_rgba(15,23,42,0.05)] transition-all hover:translate-y-[-4px] hover:shadow-[0px_10px_30px_rgba(15,23,42,0.1)] group">
+<div class="flex flex-col md:flex-row gap-8">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-4">
+<span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-[10px] font-bold tracking-tighter">MERCADO</span>
+<span class="text-slate-400 text-[10px] font-medium uppercase tracking-tighter">Actualizado ayer</span>
+</div>
+<h3 class="text-h2 font-h2 text-on-background mb-3">Distribución de Mercado por Región</h3>
+<div class="flex items-start gap-3 p-4 bg-slate-50 rounded-lg border-l-4 border-purple-600 mb-6">
+<span class="material-symbols-outlined text-purple-600 shrink-0" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<p class="text-body-sm text-on-surface-variant">
+                                    La región <span class="font-bold text-purple-700">LATAM</span> ha superado la cuota de mercado esperada por 5 puntos. Se recomienda reasignar presupuesto de marketing de regiones saturadas a este sector emergente.
+                                </p>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-white px-6 py-2.5 rounded-lg font-bold text-sm hover:bg-primary-container transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">add_chart</span>
+                                    Agregar al Dashboard
+                                </button>
+<button class="text-slate-500 hover:text-blue-600 font-bold text-sm px-4 py-2.5 transition-colors">Ver Detalles</button>
+</div>
+</div>
+<div class="w-full md:w-80 h-48 bg-slate-50 rounded-xl border border-slate-100 overflow-hidden relative">
+<img alt="Gráfico de Pastel de Mercado" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="A sophisticated doughnut chart or pie chart visualizing market distribution data. The segments use a palette of blues, slates, and a vibrant purple accent. The visual style is crisp and high-definition, set against a sterile white background. The overall mood is analytical and clear, conveying 'Instant Clarity' as per the brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoQqq8XFgxdYQrkMMAUmhtKhasOsYG9uZJOFh1WyA3tY2iNwqdpj8g9xAWDsaqg7GJnpR5SqBqY4wp35DcuzIDa9ZxieAmIHL09JWBl8Qx75GNto6K2qkPzXodItzTQxgOwRcubSs5KhD4OCpfwxDDVyBnnIpn1_Fx-h6Jl6VSArhKjJoAAwlygQPOVKuSqMy8KvtZedgNwPDoztIaQfZ_XiWTkyWB4ExxA5DYxrLbeITeXwWIh5xSy1Kjex8qJI2jKdcP3I-elKK8"/>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<span class="bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-black text-purple-600 border border-purple-100 shadow-sm">VISTA PREVIA</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3: Performance Audit (Bar Chart) -->
+<div class="ai-card-glow rounded-xl p-6 bg-white shadow-[0px_4px_20px_rgba(15,23,42,0.05)] transition-all hover:translate-y-[-4px] hover:shadow-[0px_10px_30px_rgba(15,23,42,0.1)] group">
+<div class="flex flex-col md:flex-row gap-8">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-4">
+<span class="bg-teal-100 text-teal-700 px-2 py-0.5 rounded text-[10px] font-bold tracking-tighter">OPERACIONES</span>
+<span class="text-slate-400 text-[10px] font-medium uppercase tracking-tighter">Nuevo insight</span>
+</div>
+<h3 class="text-h2 font-h2 text-on-background mb-3">Eficiencia de Respuesta Operativa</h3>
+<div class="flex items-start gap-3 p-4 bg-slate-50 rounded-lg border-l-4 border-teal-600 mb-6">
+<span class="material-symbols-outlined text-teal-600 shrink-0" style="font-variation-settings: 'FILL' 1;">insights</span>
+<p class="text-body-sm text-on-surface-variant">
+                                    Los tiempos de procesamiento en el <span class="font-bold text-teal-700">Nodo Central</span> han disminuido en un 22%. Este comportamiento es anómalo y altamente positivo para la carga de trabajo semanal.
+                                </p>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-white px-6 py-2.5 rounded-lg font-bold text-sm hover:bg-primary-container transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">add_chart</span>
+                                    Agregar al Dashboard
+                                </button>
+<button class="text-slate-500 hover:text-blue-600 font-bold text-sm px-4 py-2.5 transition-colors">Comparar Histórico</button>
+</div>
+</div>
+<div class="w-full md:w-80 h-48 bg-slate-50 rounded-xl border border-slate-100 overflow-hidden relative">
+<img alt="Gráfico de Barras de Operaciones" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="A clean and professional bar chart visualizing operational efficiency metrics. The bars are a combination of deep navy and vibrant blue, standing tall against a white background with subtle horizontal grid lines. The image conveys a sense of rigorous structure and authority, with soft, even lighting and a modern tech-focused atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGR08SKX2tjLC2tIs4uoaXT8cACWBSRLsHHbxuVwiU7IJA6WwbpNig3C7Vtyg6FWCyr0x0eC1LW9GLgTIAGXwx0Pvw_aPpy-3qeqmwn-UuVrPNXVnsBPyy4G1AxXnr7E9LKNfbvu-COHmigcU8aa03gLAHQLuT0Y7tdE0AfZ3mKSpvnM6TOjAHe0bJstD1-vGY8D7Cov7sRgcZb_M6C7wTRWFkEGWA-4SZ4OGCETyDGprG84LWpG0vaaLPa9g_vFJSGQzPb8GVX3Jj"/>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<span class="bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-black text-teal-600 border border-teal-100 shadow-sm">VISTA PREVIA</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Shell -->
+<footer class="relative w-full py-12 bg-slate-50 border-t border-slate-200">
+<div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex flex-col items-center md:items-start">
+<span class="text-sm font-bold text-slate-700 mb-2">Análisis al Instante</span>
+<p class="font-sans text-xs text-slate-500">© 2024 Análisis al Instante. Professional Data Intelligence.</p>
+</div>
+<div class="flex items-center space-x-8">
+<a class="font-sans text-xs text-slate-500 hover:text-blue-600 transition-colors" href="#">Privacy Policy</a>
+<a class="font-sans text-xs text-slate-500 hover:text-blue-600 transition-colors" href="#">Terms of Service</a>
+<a class="font-sans text-xs text-slate-500 hover:text-blue-600 transition-colors" href="#">API Documentation</a>
+</div>
+</div>
+</footer>
+</body></html>
