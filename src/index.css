@@ -6,18 +6,68 @@
   box-sizing: border-box;
 }
 
-html {
-  color-scheme: light;
+.font-heading {
+  font-family: var(--font-heading), system-ui, sans-serif;
+}
+
+.font-body {
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-weight: 600;
+  line-height: var(--text-h1-line);
+  letter-spacing: -0.02em;
 }
 
 body {
   margin: 0;
-  font-family: var(--font-sans);
+  scrollbar-color: var(--color-scrollbar-thumb) transparent;
+  font-family: var(--font-body), system-ui, sans-serif;
   font-size: var(--text-body-lg-size);
-  line-height: 1.6;
+  line-height: 1.625;
   color: var(--color-on-background);
-  background: var(--color-background);
+  background-color: var(--color-background);
+  background-image:
+    radial-gradient(
+      ellipse 120% 80% at 50% -25%,
+      rgba(31, 190, 204, 0.09),
+      transparent 55%
+    ),
+    linear-gradient(
+        to right,
+        rgba(30, 41, 59, 0.06) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgba(30, 41, 59, 0.06) 1px, transparent 1px);
+  background-size: auto, 48px 48px, 48px 48px;
   -webkit-font-smoothing: antialiased;
+}
+
+html[data-theme='dark'] body {
+  background-image:
+    radial-gradient(
+      ellipse 100% 60% at 50% -20%,
+      rgba(31, 190, 204, 0.14),
+      transparent 58%
+    ),
+    linear-gradient(
+        to right,
+        rgba(30, 41, 59, 0.45) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgba(30, 41, 59, 0.45) 1px, transparent 1px);
+  background-size: auto, 50px 50px, 50px 50px;
 }
 
 #root {

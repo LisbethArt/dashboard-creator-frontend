@@ -12,7 +12,7 @@
 
 .dropzone {
   position: relative;
-  background: #fff;
+  background: var(--color-solid-surface);
   border: 2px dashed var(--color-slate-200);
   border-radius: var(--radius-xl);
   padding: clamp(32px, 4vw, 48px);
@@ -26,6 +26,22 @@
   overflow: hidden;
 }
 
+.dropzoneActive {
+  border-color: var(--color-primary);
+  background: rgba(31, 190, 204, 0.06);
+}
+
+.fileInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+}
+
 .dropzone:hover {
   border-color: var(--color-primary);
 }
@@ -36,7 +52,7 @@
   right: -80px;
   width: 200px;
   height: 200px;
-  background: rgba(37, 99, 235, 0.08);
+  background: rgba(31, 190, 204, 0.1);
   border-radius: 999px;
   filter: blur(40px);
 }
@@ -45,7 +61,7 @@
   width: 64px;
   height: 64px;
   border-radius: 16px;
-  background: #eff6ff;
+  background: var(--color-primary-subtle-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,9 +91,14 @@
   border-radius: var(--radius-md);
   border: none;
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-on-primary);
   font-weight: 700;
-  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.25);
+  box-shadow: var(--shadow-button-elevated);
+}
+
+.pickBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .pickBtn:hover {
@@ -86,9 +107,10 @@
 
 .formats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-lg);
   width: 100%;
+  max-width: 400px;
   margin-top: var(--space-xl);
   padding-top: var(--space-lg);
   border-top: 1px solid var(--color-slate-100);
@@ -113,7 +135,7 @@
 
 .sideCard,
 .sideCardMuted {
-  background: #fff;
+  background: var(--color-solid-surface);
   border-radius: var(--radius-xl);
   padding: var(--space-lg);
   border: 1px solid var(--color-slate-200);
@@ -128,9 +150,19 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
   font-size: 13px;
   font-weight: 600;
   color: var(--color-slate-600);
+}
+
+.progressPercent {
+  margin-left: auto;
+  font-size: 14px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  color: var(--color-primary);
 }
 
 .sideTitle {
@@ -148,9 +180,10 @@
 .progressBar {
   display: block;
   height: 100%;
-  width: 68%;
+  width: 0%;
   border-radius: 999px;
-  background: linear-gradient(90deg, #2563eb, #60a5fa);
+  background: var(--gradient-primary);
+  transition: width 0.18s ease-out;
 }
 
 .sideMeta {
@@ -179,4 +212,45 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.errorCard {
+  background: var(--color-error-surface);
+  border-radius: var(--radius-xl);
+  padding: var(--space-md);
+  border: 1px solid var(--color-error-border);
+}
+
+.errorTitle {
+  margin: 0 0 6px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-error-text);
+}
+
+.errorBody {
+  margin: 0 0 var(--space-sm);
+  font-size: 13px;
+  color: var(--color-error-text-muted);
+  word-break: break-word;
+}
+
+.errorDismiss {
+  border: none;
+  background: var(--color-solid-surface);
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  color: var(--color-error-text);
+  border: 1px solid var(--color-error-border);
+}
+
+.inlineLink {
+  color: var(--color-link-interactive);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.inlineLink:hover {
+  text-decoration: underline;
 }
