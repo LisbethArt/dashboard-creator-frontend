@@ -4,9 +4,16 @@
   height: 100%;
   min-height: 0;
   border-radius: var(--radius-xl);
-  overflow: hidden;
   background: var(--color-solid-surface);
   box-shadow: var(--shadow-card);
+}
+
+.itemBody {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: min-content;
+  flex: 1 1 auto;
 }
 
 .dragHandleRoot {
@@ -42,7 +49,7 @@
 .gridCanvas {
   background: var(--color-slate-100);
   border-radius: var(--radius-xl);
-  padding: 8px;
+  padding: var(--space-md);
   min-height: 200px;
 }
 

@@ -119,7 +119,7 @@ export function AnalysisFlowProvider({ children }: { children: ReactNode }) {
       if (prev.some((w) => chartSuggestionsEqual(w.suggestion, suggestion))) {
         return prev
       }
-      const layout = defaultLayoutForChartType(suggestion.chart_type, prev)
+      const layout = defaultLayoutForChartType(suggestion, prev)
       return [...prev, { id: crypto.randomUUID(), suggestion: { ...suggestion }, layout }]
     })
   }, [])

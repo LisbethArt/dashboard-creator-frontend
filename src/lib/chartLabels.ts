@@ -7,7 +7,7 @@ export function chartTypeLabelEs(chartType: ChartType): string {
     case 'line':
       return 'Líneas'
     case 'pie':
-      return 'Circular'
+      return 'Pastel'
     case 'scatter':
       return 'Dispersión'
     default:

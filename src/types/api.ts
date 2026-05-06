@@ -13,6 +13,7 @@ export type DatasetColumn = {
   kind: 'datetime' | 'numeric' | 'text'
   select_options: string[]
   default_select: string
+  suggested_short_label?: string | null
 }
 
 export type DatasetTypeDistribution = {

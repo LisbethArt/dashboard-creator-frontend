@@ -80,7 +80,7 @@ export function DataUploadScreen() {
 
   return (
     <WorkspacePage
-      title="Subir datos"
+      title="Cargar datos"
       description="Importe sus archivos para que la IA genere análisis estadísticos al instante."
     >
       <div className={styles.grid}>

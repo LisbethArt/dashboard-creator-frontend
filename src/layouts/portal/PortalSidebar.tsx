@@ -30,7 +30,6 @@ export function PortalSidebar() {
                 item.key === 'analysis-workflow' ? isAnalysisWorkflowHubPath(pathname) : isActive
               return [styles.navLink, active ? styles.navLinkActive : ''].filter(Boolean).join(' ')
             }}
-            end={item.path === '/'}
           >
             <MaterialIcon name={item.icon} />
             {item.label}

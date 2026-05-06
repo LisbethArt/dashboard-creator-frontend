@@ -346,23 +346,33 @@
   border-color: var(--color-primary-container);
 }
 
-.mappingDelete {
+.mappingRevert {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   align-self: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
   border: none;
-  background: none;
-  color: var(--color-error);
+  border-radius: var(--radius-lg);
+  background: var(--color-slate-100);
+  font-weight: 600;
+  color: var(--color-secondary);
   cursor: pointer;
-  opacity: 0.35;
-  padding: 8px;
-  border-radius: var(--radius-md);
   transition:
-    opacity 0.2s ease,
-    background 0.2s ease;
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
-.mappingDelete:hover {
-  opacity: 1;
-  background: rgba(239, 68, 68, 0.08);
+.mappingRevert:hover {
+  background: var(--color-slate-200);
+}
+
+.mappingRevert > span {
+  font-size: 22px;
+  line-height: 1;
 }
 
 .statsCard {
@@ -502,13 +512,6 @@
   line-height: 1.55;
   color: var(--color-slate-600);
   white-space: pre-line;
-}
-
-.aiNote {
-  margin: 0;
-  font-size: 12px;
-  line-height: 1.45;
-  color: var(--color-slate-500);
 }
 
 .distCard {
@@ -684,7 +687,7 @@
   .toolbarPrimary,
   .toolbarSecondary,
   .tr,
-  .mappingDelete,
+  .mappingRevert,
   .emptyCta {
     transition: none;
   }

@@ -14,7 +14,7 @@ export const ANALYSIS_FLOW_STEPS = [
   },
   {
     path: SETTINGS_PATH,
-    label: 'Configuración de datos',
+    label: 'Datos procesados',
     shortLabel: 'Datos',
     icon: 'table_chart',
   },
@@ -43,7 +43,7 @@ export function isAnalysisWorkflowHubPath(pathname: string): boolean {
   return isAnalysisFlowPath(pathname) && pathname !== DASHBOARD_PATH
 }
 
-export type NavKey = 'home' | 'analysis-workflow' | 'dashboard' | 'export-report'
+export type NavKey = 'analysis-workflow' | 'dashboard' | 'export-report'
 
 export type NavItem = {
   key: NavKey
@@ -53,7 +53,6 @@ export type NavItem = {
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { key: 'home', path: '/', label: 'Inicio', icon: 'home' },
   {
     key: 'analysis-workflow',
     path: DATA_UPLOAD_PATH,

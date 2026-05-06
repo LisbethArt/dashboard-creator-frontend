@@ -270,26 +270,9 @@
   border: 1px solid var(--color-primary-subtle-border);
 }
 
-.liveDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  box-shadow: 0 0 12px var(--color-primary);
-  animation: homePulse 2s ease-in-out infinite;
-}
-
-@keyframes homePulse {
-  50% {
-    opacity: 0.5;
-    transform: scale(0.9);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .liveDot {
-    animation: none;
-  }
+.heroBadgeIcon {
+  font-size: 16px !important;
+  color: var(--color-primary-container) !important;
 }
 
 .heroTitle {
@@ -606,7 +589,7 @@
 @media (min-width: 1024px) {
   .showcaseGrid {
     grid-template-columns: 1.65fr 1fr;
-    align-items: start;
+    align-items: stretch;
   }
 }
 
@@ -616,6 +599,19 @@
   background: var(--color-solid-surface);
   border: 1px solid var(--color-outline-variant);
   box-shadow: var(--shadow-card);
+  min-height: 0;
+}
+
+@media (min-width: 1024px) {
+  .mockCard {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mockChart {
+    flex: 1 1 auto;
+    min-height: 220px;
+  }
 }
 
 .mockTop {
@@ -745,7 +741,33 @@
 .showcaseAside {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-lg);
+  min-height: 0;
+}
+
+@media (min-width: 1024px) {
+  .showcaseAside {
+    height: 100%;
+  }
+
+  .showcaseAside .glassPanel,
+  .showcaseAside .glassPanelAccent {
+    flex: 1 1 0;
+    min-height: 0;
+  }
+
+  .showcaseAside .glassPanel {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .showcaseAside .glassPanelAccent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .glassPanel {
@@ -795,13 +817,13 @@
   padding: var(--space-xl) var(--space-lg);
   border-radius: var(--radius-xl);
   background: var(--color-panel-glass);
+  border: 1px solid var(--color-panel-glass-border);
   backdrop-filter: blur(12px);
   box-shadow: var(--shadow-card);
   position: relative;
   overflow: hidden;
   transition: box-shadow 0.3s ease;
   text-align: center;
-  border: 1px solid color-mix(in srgb, var(--color-primary) 28%, var(--color-outline-variant));
 }
 
 .glassPanelAccent:hover {

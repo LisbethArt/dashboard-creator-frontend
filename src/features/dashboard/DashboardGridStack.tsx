@@ -52,11 +52,12 @@ export function DashboardGridStack({ editable }: DashboardGridStackProps) {
       editable
         ? {
             cellHeight: 72,
-            margin: 10,
+            margin: 16,
             column: 12,
             animate: true,
             float: true,
             staticGrid: false,
+            sizeToContent: true,
             disableDrag: false,
             disableResize: false,
             alwaysShowResizeHandle: true,
@@ -73,15 +74,46 @@ export function DashboardGridStack({ editable }: DashboardGridStackProps) {
           }
         : {
             cellHeight: 72,
-            margin: 10,
+            margin: 16,
             column: 12,
             animate: true,
             float: true,
             staticGrid: true,
+            sizeToContent: true,
           },
       root,
     )
     gridRef.current = grid
+
+    const resizeAllToContent = () => {
+      if (!gridRef.current?.engine?.nodes?.length) {
+        return
+      }
+      const g = gridRef.current
+      g.batchUpdate(true)
+      g.engine.nodes.forEach((n) => {
+        if (n.el) {
+          g.resizeToContent(n.el)
+        }
+      })
+      g.batchUpdate(false)
+    }
+
+    let roFrame = 0
+    const scheduleResizeAll = () => {
+      cancelAnimationFrame(roFrame)
+      roFrame = requestAnimationFrame(() => {
+        roFrame = 0
+        resizeAllToContent()
+      })
+    }
+
+    const ro = new ResizeObserver(scheduleResizeAll)
+    root.querySelectorAll<HTMLElement>('[data-dashboard-grid-item-body]').forEach((el) => {
+      ro.observe(el)
+    })
+    scheduleResizeAll()
+    requestAnimationFrame(scheduleResizeAll)
 
     const onChange = () => {
       const raw = grid.save(false) as Array<{
@@ -107,6 +139,8 @@ export function DashboardGridStack({ editable }: DashboardGridStackProps) {
     grid.on('change', onChange)
 
     return () => {
+      cancelAnimationFrame(roFrame)
+      ro.disconnect()
       grid.destroy(false)
       gridRef.current = null
     }
@@ -125,24 +159,26 @@ export function DashboardGridStack({ editable }: DashboardGridStackProps) {
       {dashboardWidgets.map((widget) => (
         <div key={widget.id} id={widget.id} className="grid-stack-item" {...gsAttrs(widget)}>
           <div className={`grid-stack-item-content ${styles.itemContent}`}>
-            {editable ? (
-              <div
-                className={`${styles.dragHandleRoot} dashboard-grid-drag-handle`}
-                role="toolbar"
-                aria-label="Arrastrar tarjeta"
-              >
-                <MaterialIcon name="drag_indicator" className={styles.dragIcon} />
-                <span className={styles.dragLabel}>Mover</span>
-              </div>
-            ) : null}
-            <DashboardChartCard
-              widgetId={widget.id}
-              uploadId={uploadId}
-              suggestion={widget.suggestion}
-              onRemove={() => removeWidget(widget.id)}
-              showRemove={editable}
-              fillContainer
-            />
+            <div className={styles.itemBody} data-dashboard-grid-item-body="">
+              {editable ? (
+                <div
+                  className={`${styles.dragHandleRoot} dashboard-grid-drag-handle`}
+                  role="toolbar"
+                  aria-label="Arrastrar tarjeta"
+                >
+                  <MaterialIcon name="drag_indicator" className={styles.dragIcon} />
+                  <span className={styles.dragLabel}>Mover</span>
+                </div>
+              ) : null}
+              <DashboardChartCard
+                widgetId={widget.id}
+                uploadId={uploadId}
+                suggestion={widget.suggestion}
+                onRemove={() => removeWidget(widget.id)}
+                showRemove={editable}
+                fillContainer
+              />
+            </div>
           </div>
         </div>
       ))}

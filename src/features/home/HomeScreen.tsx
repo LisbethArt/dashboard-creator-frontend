@@ -73,7 +73,7 @@ export function HomeScreen() {
               href="#how"
               onClick={(e) => landingNavAnchorClick(e, 'how')}
             >
-              Cómo funciona
+              ¿Cómo funciona?
             </a>
             <a
               className={styles.navLink}
@@ -97,7 +97,7 @@ export function HomeScreen() {
               <MaterialIcon name={theme === 'light' ? 'dark_mode' : 'light_mode'} />
             </button>
             <Link className={styles.ctaLaunch} to={DATA_UPLOAD_PATH}>
-              Lanzar app
+              Empezar ahora
             </Link>
           </div>
         </div>
@@ -107,13 +107,13 @@ export function HomeScreen() {
         <div className={styles.statsInner}>
           {[
             {
-              label: 'Velocidad de ingesta',
-              value: '< 3 s',
-              hint: 'Datasets grandes',
+              label: 'Procesamiento rápido',
+              value: '< 5 s',
+              hint: 'Datos grandes',
             },
-            { label: 'Modo flujo IA', value: '4 pasos', hint: 'Guiado de extremo a extremo' },
-            { label: 'Widgets dinámicos', value: 'Grid', hint: 'Arrastre en vista previa' },
-            { label: 'Salida ejecutiva', value: 'PDF', hint: 'Listo para compartir' },
+            { label: 'Flujo guiado', value: '4 pasos', hint: 'Guiado de extremo a extremo' },
+            { label: 'Gráficos dinámicos', value: 'Grid', hint: 'Arrastre en vista previa' },
+            { label: 'Exportación rápida', value: 'PDF', hint: 'Listo para compartir' },
           ].map((row) => (
             <div key={row.label} className={styles.statCell}>
               <p className={styles.statLabel}>{row.label}</p>
@@ -134,33 +134,25 @@ export function HomeScreen() {
               variants={stagger}
             >
               <motion.div variants={fadeUp(0)} className={styles.heroBadge}>
-                <span className={styles.liveDot} aria-hidden />
-                IA en su pipeline de datos
+                <MaterialIcon name="auto_awesome" className={styles.heroBadgeIcon} aria-hidden />
+                Inteligencia artificial aplicada
               </motion.div>
               <motion.h1 variants={fadeUp(0.06)} className={styles.heroTitle}>
-                Transforme la forma en que su{' '}
-                <span className={styles.heroGradient}>equipo analiza</span>
+                Transforme sus hojas de cálculo en{' '}
+                <span className={styles.heroGradient}>dashboards</span>
               </motion.h1>
               <motion.p variants={fadeUp(0.1)} className={styles.heroLead}>
-                Suba CSV o Excel y obtenga perfiles estadísticos, sugerencias de gráficos y un
-                dashboard interactivo sin montar otro BI.
+              Suba sus archivos CSV o Excel y deje que nuestra IA genere análisis profundos, visualizaciones dinámicas y reportes en segundos.
               </motion.p>
               <motion.div variants={fadeUp(0.14)} className={styles.heroBtns}>
                 <Link className={styles.btnPrimary} to={DATA_UPLOAD_PATH}>
-                  Comenzar gratis
+                  Comenzar análisis
                   <MaterialIcon name="arrow_forward" className={styles.btnIcon} />
                 </Link>
-                <a
-                  className={styles.btnGhost}
-                  href="#features"
-                  onClick={(e) => landingNavAnchorClick(e, 'features')}
-                >
-                  Ver producto
-                </a>
               </motion.div>
               <motion.p variants={fadeUp(0.18)} className={styles.heroFootnote}>
                 <MaterialIcon name="groups" className={styles.heroFootnoteIcon} />
-                Para equipos que viven entre hojas de cálculo y necesitan claridad ejecutiva rápido.
+                Para personas que trabajan con hojas de cálculo y necesitan claridad ejecutiva rápida.
               </motion.p>
             </motion.div>
 
@@ -209,18 +201,17 @@ export function HomeScreen() {
           transition={{ duration: 0.65, ease }}
         >
           <div className={styles.sectionHead}>
-            <p className={styles.sectionKicker}>Vista previa del workspace</p>
-            <h2 className={styles.sectionTitle}>Un panel que se siente vivo</h2>
+            <p className={styles.sectionKicker}>Vista previa del dashboard</p>
+            <h2 className={styles.sectionTitle}>Un dashboard que se siente vivo</h2>
             <p className={styles.sectionLead}>
-              Métricas, contexto de IA y un flujo claro hacia exportación.
+              Métricas, contexto de IA y un flujo en el análisis.
             </p>
           </div>
           <div className={styles.showcaseGrid}>
             <div className={styles.mockCard}>
               <div className={styles.mockTop}>
                 <div>
-                  <h3 className={styles.mockTitle}>Resumen ejecutivo</h3>
-                  <p className={styles.mockSub}>Serie agregada · última corrida</p>
+                  <h3 className={styles.mockTitle}>Resumen ejecutivo de ventas</h3>
                 </div>
                 <div className={styles.mockTools}>
                   <span className={styles.mockIconBtn}>
@@ -233,7 +224,7 @@ export function HomeScreen() {
               </div>
               <div className={styles.mockKpis}>
                 <div className={styles.mockKpi}>
-                  <span className={styles.mockKpiL}>Variación</span>
+                  <span className={styles.mockKpiL}>ROI</span>
                   <span className={styles.mockKpiV}>+24.8%</span>
                 </div>
                 <div className={styles.mockKpi}>
@@ -265,18 +256,18 @@ export function HomeScreen() {
                   <span className={styles.glassTag}>IA</span>
                 </div>
                 <p className={styles.glassQuote}>
-                  Picos inusuales en Q3; correlación fuerte con canal digital.
+                Se detectó una anomalía positiva en el segmento corporativo durante el último trimestre.
                 </p>
-                <p className={styles.glassHint}>Sugerencia prioritaria para la siguiente iteración.</p>
+                <p className={styles.glassHint}>Recomendación: incrementar el presupuesto en Linkedin un 15% en el sector tecnológico.</p>
               </motion.div>
               <motion.div
                 className={styles.glassPanelAccent}
                 whileHover={reduceMotion ? undefined : cardHover}
               >
                 <MaterialIcon name="upload_file" className={styles.glassBigIcon} />
-                <h3 className={styles.glassH}>Carga y perfilado</h3>
+                <h3 className={styles.glassH}>Procesado de datos al instante</h3>
                 <p className={styles.glassP}>
-                  Tipos inferidos, columnas clave y calidad en un solo vistazo.
+                  Tipos inferidos, columnas clave y calidad en un solo vistazo, precisión consistente y sin errores.
                 </p>
               </motion.div>
             </aside>
@@ -286,10 +277,10 @@ export function HomeScreen() {
         <section className={styles.features} aria-labelledby="feat-grid-title">
           <div className={styles.sectionHead}>
             <h2 id="feat-grid-title" className={styles.sectionTitle}>
-              Por qué cambiar a este flujo
+              ¿Por qué cambiar a este flujo?
             </h2>
             <p className={styles.sectionLead}>
-              Menos fricción entre el archivo y la historia que cuenta.
+              Menos tiempo invertido en el análisis y más tiempo para tomar decisiones.
             </p>
           </div>
           <div className={styles.featureGrid}>
@@ -297,17 +288,17 @@ export function HomeScreen() {
               {
                 icon: 'bolt',
                 title: 'Respuesta inmediata',
-                text: 'Perfil estadístico y primeras visualizaciones en segundos.',
+                text: 'Perfil estadístico y análisis de datos históricos en segundos.',
               },
               {
                 icon: 'dashboard_customize',
                 title: 'Dashboard modular',
-                text: 'Grid con arrastre, tarjetas con insight y vista publicable.',
+                text: 'Grid con arrastre, tarjetas con insight y vista personalizable.',
               },
               {
                 icon: 'picture_as_pdf',
-                title: 'Exportación seria',
-                text: 'PDF ejecutivo alineado con lo que ya validó en pantalla.',
+                title: 'Exportación rápida',
+                text: 'Diferentes formatos de exportación, incluyendo PDF, Excel y CSV.',
               },
             ].map((f) => (
               <motion.article
@@ -335,26 +326,31 @@ export function HomeScreen() {
         <section id="how" className={`${styles.how} ${styles.anchorPad}`} aria-labelledby="how-title">
           <div className={styles.sectionHead}>
             <h2 id="how-title" className={styles.sectionTitle}>
-              Cómo funciona
+              ¿Cómo funciona?
             </h2>
             <p className={styles.sectionLead}>Cuatro pasos. Un solo flujo continuo en la app.</p>
           </div>
           <ol className={styles.timeline}>
             {[
               {
-                step: '01',
+                step: '1',
                 title: 'Conecte sus datos',
                 body: 'CSV o Excel al servidor; validación y perfilado automático.',
               },
               {
-                step: '02',
+                step: '2',
                 title: 'Ajuste el mapeo',
                 body: 'Confirme columnas, tipos y exclusiones según su criterio.',
               },
               {
-                step: '03',
+                step: '3',
                 title: 'Deje trabajar a la IA',
-                body: 'Propuestas de gráficos con parámetros sensatos por defecto.',
+                body: 'Propuestas de gráficos con parámetros óptimos por defecto.',
+              },
+              {
+                step: '4',
+                title: 'Personalice el dashboard',
+                body: 'Arrastre y ajuste las gráficas según sus necesidades.',
               },
             ].map((item, i) => (
               <li key={item.step} className={i % 2 === 0 ? styles.timelineRow : styles.timelineRowAlt}>
@@ -379,7 +375,7 @@ export function HomeScreen() {
         >
           <p className={styles.trustKicker}>Ventajas operativas</p>
           <h2 id="trust-heading" className={styles.trustTitle}>
-            Diseñado para equipos que no quieren otro proyecto de BI de seis meses
+            Diseñado para personas que no quieren otro proyecto de BI complejo
           </h2>
           <ul className={styles.trustGrid}>
             {[
@@ -396,7 +392,7 @@ export function HomeScreen() {
               {
                 icon: 'cloud_done',
                 lead: 'Procesamiento en servidor',
-                text: 'Agregaciones y persistencia del lado servidor; el cliente pide series listas.',
+                text: 'Agregaciones y persistencia del lado servidor, sin necesidad de instalar software adicional.',
               },
             ].map((t) => (
               <li key={t.lead} className={styles.trustCard}>
@@ -420,10 +416,10 @@ export function HomeScreen() {
           <div className={styles.finalCtaInner}>
             <h2 className={styles.finalTitle}>¿Listo para el siguiente nivel?</h2>
             <p className={styles.finalLead}>
-              Entre al flujo guiado: carga, configuración, IA y vista previa en un solo workspace.
+              Entre al flujo guiado: carga, configuración, IA y vista previa en un solo lugar.
             </p>
             <Link className={styles.finalBtn} to={DATA_UPLOAD_PATH}>
-              Abrir workspace
+              Iniciar análisis
             </Link>
           </div>
         </motion.section>
