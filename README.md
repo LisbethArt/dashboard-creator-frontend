@@ -1,73 +1,103 @@
-# React + TypeScript + Vite
+# Frontend — Análisis al Instante
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación **React (Vite)** para el flujo de carga de hojas de cálculo, visualización de **sugerencias de gráficos** generadas por el backend (Gemini) y montaje de un **dashboard** con series agregadas vía API (sin descargar el dataset completo al navegador).
 
-Currently, two official plugins are available:
+## Stack y decisiones
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Elección | Motivo |
+| --- | --- |
+| **React 19 + TypeScript + Vite 8** | HMR rápido, build moderna, tipado en cliente y contratos alineados con el OpenAPI del backend. |
+| **React Router** | Landing pública (`/`) y portal con rutas de trabajo bajo un layout compartido. |
+| **Recharts** | Gráficos a partir de los puntos que devuelve `POST /api/charts/series`. |
+| **Framer Motion** | Transiciones ligeras en pantallas clave. |
+| **XMLHttpRequest en la carga** | Barra de progreso real del *upload* hasta ~95 %; el 100 % llega cuando el backend termina (perfilado + IA + persistencia). |
 
-## React Compiler
+## Variables de entorno
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Copie [.env.example](.env.example) a `.env` y complete según necesite:
 
-## Expanding the ESLint configuration
+- `VITE_API_URL` — origen del backend FastAPI **sin** barra final (p.ej. `http://localhost:8000`). Si se omite, el cliente usa `http://localhost:8000` por defecto.
+- `VITE_AUTHOR_PORTFOLIO_URL`, `VITE_AUTHOR_LINKEDIN_URL`, `VITE_AUTHOR_GITHUB_URL` — enlaces opcionales para el pie de la landing; pueden dejarse vacíos.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Solo las variables que empiezan por `VITE_` se inyectan en el bundle
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Integración con la API
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+El cliente llama al mismo contrato descrito en [`backend-dashboard-creator/README.md`](../backend-dashboard-creator/README.md):
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Método | Ruta (relativa al `VITE_API_URL`) | Uso en el frontend |
+| --- | --- | --- |
+| `POST` | `/api/analyze` | `multipart/form-data` con campo `file`; devuelve `upload_id` y `suggestions`. Usado en la pantalla de carga con progreso (`analyzeSpreadsheetWithProgress`). |
+| `POST` | `/api/charts/series` | JSON con `upload_id`, `chart_type` y `parameters`; devuelve filas listas para Recharts (`fetchChartSeries`). |
+
+En el backend, `CORS_ORIGINS` debe incluir el origen de Vite (por defecto `http://localhost:5173`).
+
+## Rutas y navegación
+
+| Ruta | Pantalla |
+| --- | --- |
+| `/` | Inicio (landing). |
+| `/upload-data` | Cargar archivo `.csv` / `.xlsx` e iniciar análisis. |
+| `/ai-suggestions` | Tarjetas con sugerencias de la IA; añadir al dashboard. |
+| `/dashboard` | Cuadrícula de gráficos con datos agregados. |
+| `/settings` | Vista tipo Stitch: preview de columnas y tipos (sin persistencia en backend). |
+| `/export-report` | Vista tipo Stitch: configuración de exportación (sin generación real de PDF). |
+
+## Estado global del flujo
+
+`AnalysisFlowProvider` (`src/context/AnalysisFlowContext.tsx`) concentra `uploadId`, sugerencias, *widgets* del dashboard, progreso de análisis y errores. Tras un análisis exitoso navega automáticamente a `/ai-suggestions`. Un **reset** de sesión limpia `uploadId`, sugerencias y widgets para empezar otro archivo.
+
+```mermaid
+flowchart LR
+  upload[Upload_data]
+  api_analyze[POST_api_analyze]
+  sug[AI_suggestions]
+  dash[Dashboard]
+  api_series[POST_api_charts_series]
+  upload --> api_analyze --> sug
+  sug --> dash
+  dash --> api_series
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Assets desde Google Stitch (opcional)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+El script `npm run fetch:stitch` descarga capturas y HTML de referencia según `scripts/stitch-manifest.json` hacia `src/assets/stitch/` y `public/stitch-html/`. Requiere `curl` disponible en el PATH (en Windows usa `curl.exe`).
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Ejecución local
+
+Desde la carpeta **`frontend-dashboard-creator`** (donde está este `README`):
+
+```powershell
+cd frontend-dashboard-creator
+npm install
 ```
+
+```powershell
+npm run dev
+```
+
+Abra la app en `http://localhost:5173` (puerto por defecto de Vite).
+
+### Otros comandos
+
+| Comando | Descripción |
+| --- | --- |
+| `npm run build` | Typecheck (`tsc -b`) y build de producción en `dist/`. |
+| `npm run preview` | Sirve `dist/` para validar el build. |
+| `npm run lint` | ESLint sobre el proyecto. |
+
+### Comprobaciones rápidas
+
+1. Tener el backend en marcha (`uvicorn` en el puerto configurado en `VITE_API_URL`).  
+2. En `/upload-data`, subir un CSV de prueba y confirmar redirección a sugerencias.  
+3. Añadir una sugerencia al dashboard y comprobar que los gráficos cargan sin error de red.
+
+## Estructura útil del código
+
+| Ruta | Rol |
+| --- | --- |
+| `src/api/http.ts`, `src/api/analysis.ts` | Origen de la API, errores FastAPI y llamadas a analizar / series. |
+| `src/types/api.ts` | Tipos alineados con las respuestas JSON del backend. |
+| `src/config/nav.ts` | Constantes de rutas y elemento de navegación del portal. |
+| `src/features/*` | Pantallas por flujo (home, upload, sugerencias, dashboard, etc.). |
+| `src/layouts/portal/*` | Shell del área autenticada de trabajo (sidebar, header). |

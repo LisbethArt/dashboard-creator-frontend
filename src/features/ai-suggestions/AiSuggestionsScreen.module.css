@@ -154,6 +154,44 @@
   flex-wrap: wrap;
   gap: var(--space-sm);
   justify-content: flex-end;
+  align-items: center;
+}
+
+.feedback {
+  font-size: 13px;
+  font-weight: 600;
+  color: #15803d;
+}
+
+.empty {
+  background: #fff;
+  border-radius: var(--radius-xl);
+  border: 1px dashed var(--color-slate-200);
+  padding: clamp(28px, 4vw, 48px);
+  text-align: center;
+}
+
+.emptyTitle {
+  margin: 0 0 var(--space-sm);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.emptyLead {
+  margin: 0 0 var(--space-lg);
+  color: var(--color-on-surface-variant);
+}
+
+.emptyCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--color-primary);
+  color: #fff;
 }
 
 .ghost {

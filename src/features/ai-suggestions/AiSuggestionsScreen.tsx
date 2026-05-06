@@ -1,83 +1,100 @@
-import { WorkspacePage } from '../../layouts/WorkspacePage'
+import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { MaterialIcon } from '../../components/MaterialIcon'
+import { DATA_UPLOAD_PATH } from '../../config/nav'
+import { useAnalysisFlow } from '../../context/AnalysisFlowContext'
+import { WorkspacePage } from '../../layouts/WorkspacePage'
+import { chartTypeLabelEs } from '../../lib/chartLabels'
 import styles from './AiSuggestionsScreen.module.css'
 
-const CARDS = [
-  {
-    tag: 'Finanzas',
-    time: 'Actualizado hace 2h',
-    title: 'Tendencia de ingresos trimestrales',
-    insight:
-      'La serie muestra estacionalidad estable con un repunte anticipado para el próximo cierre.',
-  },
-  {
-    tag: 'Operaciones',
-    time: 'Actualizado hace 5h',
-    title: 'Cuellos de botella en fulfillment',
-    insight:
-      'Picos de latencia correlacionan con el turno nocturno; revisar staffing al 80% del SLA.',
-  },
-  {
-    tag: 'Clientes',
-    time: 'Actualizado ayer',
-    title: 'Segmento enterprise en expansión',
-    insight:
-      'El cohort con más de 50 empleados aumentó retención un 6.2% interanual.',
-  },
-] as const
-
 /**
- * AI suggestions feed (Stitch "Sugerencias de IA").
+ * Renders Gemini-backed chart suggestion cards tied to the latest successful upload.
  */
 export function AiSuggestionsScreen() {
+  const { suggestions, uploadId, addWidget } = useAnalysisFlow()
+  const [appliedId, setAppliedId] = useState<string | null>(null)
+
+  const keyed = useMemo(
+    () => suggestions.map((s, idx) => ({ suggestion: s, key: `${s.title}-${idx}` })),
+    [suggestions],
+  )
+
+  const emptyMessage = (
+    <div className={styles.empty}>
+      <p className={styles.emptyTitle}>Aún no hay sugerencias</p>
+      <p className={styles.emptyLead}>
+        Cargue una hoja de cálculo para que la IA analice patrones interesantes.
+      </p>
+      <Link className={styles.emptyCta} to={DATA_UPLOAD_PATH}>
+        Ir a cargar datos
+      </Link>
+    </div>
+  )
+
   return (
     <WorkspacePage
       title="Análisis sugeridos"
-      description="Hallazgos recientes basados en la actividad de sus datos."
+      description="Tarjetas interactivas generadas tras examinar los metadatos y la distribución de sus columnas."
       toolbar={
         <div className={styles.toggle} role="group" aria-label="Ordenar sugerencias">
           <button type="button" className={styles.toggleActive}>
             Recientes
           </button>
-          <button type="button" className={styles.toggleIdle}>
+          <button type="button" className={styles.toggleIdle} disabled>
             Populares
           </button>
         </div>
       }
     >
-      <p className={styles.kicker}>Sugerencias del motor AI</p>
-
-      <div className={styles.feed}>
-        {CARDS.map((card) => (
-          <article key={card.title} className={styles.card}>
-            <div className={styles.cardTop}>
-              <span className={styles.badge}>{card.tag}</span>
-              <span className={styles.time}>{card.time}</span>
-            </div>
-            <h2 className={styles.cardTitle}>{card.title}</h2>
-            <div className={styles.insight}>
-              <MaterialIcon name="lightbulb" />
-              <p>{card.insight}</p>
-            </div>
-            <div className={styles.spark} aria-hidden>
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-            </div>
-            <div className={styles.actions}>
-              <button type="button" className={styles.ghost}>
-                Ver detalle
-              </button>
-              <button type="button" className={styles.primary}>
-                Aplicar al tablero
-              </button>
-            </div>
-          </article>
-        ))}
-      </div>
+      {!uploadId || suggestions.length === 0 ? (
+        emptyMessage
+      ) : (
+        <>
+          <p className={styles.kicker}>Sugerencias del motor IA</p>
+          <div className={styles.feed}>
+            {keyed.map(({ suggestion, key }) => (
+              <article key={key} className={styles.card}>
+                <div className={styles.cardTop}>
+                  <span className={styles.badge}>{chartTypeLabelEs(suggestion.chart_type)}</span>
+                  <span className={styles.time}>Listo para el tablero</span>
+                </div>
+                <h2 className={styles.cardTitle}>{suggestion.title}</h2>
+                <div className={styles.insight}>
+                  <MaterialIcon name="lightbulb" />
+                  <p>{suggestion.insight}</p>
+                </div>
+                <div className={styles.spark} aria-hidden>
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                </div>
+                <div className={styles.actions}>
+                  <button
+                    type="button"
+                    className={styles.primary}
+                    aria-label={`Agregar al dashboard: ${suggestion.title}`}
+                    onClick={() => {
+                      addWidget(suggestion)
+                      setAppliedId(key)
+                      setTimeout(() => setAppliedId((current) => (current === key ? null : current)), 2800)
+                    }}
+                  >
+                    Agregar al Dashboard
+                  </button>
+                  {appliedId === key ? (
+                    <span className={styles.feedback} role="status">
+                      Añadido al panel ejecutivo.
+                    </span>
+                  ) : null}
+                </div>
+              </article>
+            ))}
+          </div>
+        </>
+      )}
     </WorkspacePage>
   )
 }
