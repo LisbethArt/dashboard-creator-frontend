@@ -3,14 +3,47 @@ export const AI_SUGGESTIONS_PATH = '/ai-suggestions'
 export const SETTINGS_PATH = '/settings'
 export const EXPORT_REPORT_PATH = '/export-report'
 export const DASHBOARD_PATH = '/dashboard'
+export const PUBLISHED_DASHBOARD_PATH = '/dashboard-board'
 
-export type NavKey =
-  | 'home'
-  | 'data-upload'
-  | 'ai-suggestions'
-  | 'dashboard'
-  | 'settings'
-  | 'export-report'
+export const ANALYSIS_FLOW_STEPS = [
+  {
+    path: DATA_UPLOAD_PATH,
+    label: 'Cargar datos',
+    shortLabel: 'Cargar',
+    icon: 'upload_file',
+  },
+  {
+    path: SETTINGS_PATH,
+    label: 'Datos procesados',
+    shortLabel: 'Datos',
+    icon: 'table_chart',
+  },
+  {
+    path: AI_SUGGESTIONS_PATH,
+    label: 'Sugerencias IA',
+    shortLabel: 'IA',
+    icon: 'psychology',
+  },
+  {
+    path: DASHBOARD_PATH,
+    label: 'Previsualización del dashboard',
+    shortLabel: 'Vista previa',
+    icon: 'dashboard',
+  },
+] as const
+
+export const ANALYSIS_FLOW_PATHS = ANALYSIS_FLOW_STEPS.map((s) => s.path) as readonly string[]
+
+export function isAnalysisFlowPath(pathname: string): boolean {
+  return ANALYSIS_FLOW_PATHS.includes(pathname)
+}
+
+/** Flow steps 1–3 (upload, settings, AI); excludes dashboard preview so sidebar highlights one section at a time. */
+export function isAnalysisWorkflowHubPath(pathname: string): boolean {
+  return isAnalysisFlowPath(pathname) && pathname !== DASHBOARD_PATH
+}
+
+export type NavKey = 'analysis-workflow' | 'dashboard' | 'export-report'
 
 export type NavItem = {
   key: NavKey
@@ -20,30 +53,17 @@ export type NavItem = {
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { key: 'home', path: '/', label: 'Inicio', icon: 'home' },
   {
-    key: 'data-upload',
+    key: 'analysis-workflow',
     path: DATA_UPLOAD_PATH,
-    label: 'Cargar datos',
-    icon: 'upload_file',
-  },
-  {
-    key: 'ai-suggestions',
-    path: AI_SUGGESTIONS_PATH,
-    label: 'Sugerencias IA',
-    icon: 'psychology',
+    label: 'Datos e IA',
+    icon: 'hub',
   },
   {
     key: 'dashboard',
-    path: DASHBOARD_PATH,
+    path: PUBLISHED_DASHBOARD_PATH,
     label: 'Dashboard',
     icon: 'dashboard',
-  },
-  {
-    key: 'settings',
-    path: SETTINGS_PATH,
-    label: 'Configuración',
-    icon: 'settings',
   },
   {
     key: 'export-report',

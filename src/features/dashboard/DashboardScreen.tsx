@@ -1,21 +1,21 @@
 import { Link } from 'react-router-dom'
-import { AI_SUGGESTIONS_PATH } from '../../config/nav'
+import { AI_SUGGESTIONS_PATH, PUBLISHED_DASHBOARD_PATH } from '../../config/nav'
 import { useAnalysisFlow } from '../../context/AnalysisFlowContext'
 import { WorkspacePage } from '../../layouts/WorkspacePage'
-import { DashboardChartCard } from './DashboardChartCard'
+import { DashboardGridStack } from './DashboardGridStack'
 import styles from './DashboardScreen.module.css'
 
 /**
- * Renders widgets added by the analyst; each visualization hydrates aggregates from the API.
+ * Editable GridStack preview: drag, resize within min sizes; layout is shared with the final Dashboard module.
  */
 export function DashboardScreen() {
-  const { uploadId, dashboardWidgets, removeWidget } = useAnalysisFlow()
+  const { uploadId, dashboardWidgets } = useAnalysisFlow()
 
   const empty = (
     <div className={styles.empty}>
       <p className={styles.emptyTitle}>Todavía no hay visualizaciones</p>
       <p className={styles.emptyLead}>
-        Abra una sugerencia y pulse &quot;Agregar al Dashboard&quot; para poblar esta cuadrícula.
+        Abra una sugerencia y pulse &quot;Agregar a la previsualización&quot; para poblar esta cuadrícula.
       </p>
       <Link className={styles.emptyCta} to={AI_SUGGESTIONS_PATH}>
         Ver sugerencias de IA
@@ -32,24 +32,21 @@ export function DashboardScreen() {
 
   return (
     <WorkspacePage
-      title="Panel ejecutivo"
-      description="Área flexible con los indicadores seleccionados desde las tarjetas de IA."
+      title="Previsualización del dashboard"
+      description="Arrastre las tarjetas por la barra «Mover», redimensione desde las esquinas y bordes. El tablero final en el menú «Dashboard» replica esta organización."
     >
       {!uploadId || dashboardWidgets.length === 0 ? empty : null}
       {missingUpload}
-      {uploadId ? (
-        <div className={styles.chartGrid}>
-          {dashboardWidgets.map((widget) => (
-            <DashboardChartCard
-              key={widget.id}
-              widgetId={widget.id}
-              uploadId={uploadId}
-              suggestion={widget.suggestion}
-              onRemove={() => removeWidget(widget.id)}
-            />
-          ))}
-        </div>
+      {uploadId && dashboardWidgets.length > 0 ? (
+        <p className={styles.gridHint}>
+          Vista previa interactiva — el resultado fijo está en{' '}
+          <Link className={styles.gridHintLink} to={PUBLISHED_DASHBOARD_PATH}>
+            Dashboard
+          </Link>
+          .
+        </p>
       ) : null}
+      {uploadId && dashboardWidgets.length > 0 ? <DashboardGridStack editable /> : null}
     </WorkspacePage>
   )
 }

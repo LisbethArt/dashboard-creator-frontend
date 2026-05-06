@@ -1,19 +1,71 @@
 import type { AnalyzeResponse, ChartSeriesRequest, ChartSeriesResponse } from '../types/api'
-import { assertResponseOk, GEMINI_RATE_LIMIT_ES, getApiBase, parseErrorDetailFromText } from './http'
+import {
+  assertResponseOk,
+  GEMINI_RATE_LIMIT_ES,
+  GEMINI_UNAVAILABLE_ES,
+  getApiBase,
+  parseErrorDetailFromText,
+} from './http'
 
-/** While the file uploads, map 0–95%; the last 5% means "servidor e IA" until la respuesta llega. */
+/** Upload maps to [1, UPLOAD_PROGRESS_CAP]; server work fills until JSON resolves at 100%. */
 const UPLOAD_PROGRESS_CAP = 95
+
+/**
+ * Coalesces frequent xhr.upload progress events to one React-friendly update per animation frame.
+ */
+function createProgressBatcher(report: (percent: number) => void) {
+  let rafId = 0
+  let pending = -1
+
+  const flush = () => {
+    rafId = 0
+    if (pending < 0) {
+      return
+    }
+    const value = pending
+    pending = -1
+    report(value)
+  }
+
+  const schedule = (percent: number) => {
+    pending = percent
+    if (rafId === 0) {
+      rafId = requestAnimationFrame(flush)
+    }
+  }
+
+  const flushNow = () => {
+    if (rafId !== 0) {
+      cancelAnimationFrame(rafId)
+      rafId = 0
+    }
+    flush()
+  }
+
+  return { schedule, flushNow }
+}
 
 function xhrErrorMessage(xhr: XMLHttpRequest): string {
   if (xhr.status === 429) {
+    const detail = parseErrorDetailFromText(xhr.responseText || xhr.statusText).trim()
+    if (detail.length > 0) {
+      return detail
+    }
     return GEMINI_RATE_LIMIT_ES
+  }
+  if (xhr.status === 503) {
+    const detail = parseErrorDetailFromText(xhr.responseText || xhr.statusText).trim()
+    if (detail.length > 0) {
+      return detail
+    }
+    return GEMINI_UNAVAILABLE_ES
   }
   return parseErrorDetailFromText(xhr.responseText || xhr.statusText)
 }
 
 /**
- * POST multipart analyze with real upload bytes progress.
- * Completion (100 %) sólo cuando el backend devuelve JSON (incluye perfilado + Gemini + persistencia).
+ * POST multipart analyze with real upload bytes progress (XMLHttpRequest).
+ * Completion at 100% only after the backend returns JSON (profiling + LLM + persistence).
  */
 export function analyzeSpreadsheetWithProgress(
   file: File,
@@ -24,16 +76,39 @@ export function analyzeSpreadsheetWithProgress(
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
     xhr.responseType = 'text'
+    const batch = createProgressBatcher(onProgress)
+
+    const uploadPercentFromLoadedTotal = (loaded: number, total: number) => {
+      if (total <= 0 || loaded < 0) {
+        return null
+      }
+      const ratio = Math.min(1, loaded / total)
+      return Math.min(UPLOAD_PROGRESS_CAP, Math.max(1, Math.round(UPLOAD_PROGRESS_CAP * ratio)))
+    }
+
+    xhr.upload.addEventListener('loadstart', () => {
+      batch.schedule(1)
+    })
 
     xhr.upload.addEventListener('progress', (e) => {
-      if (!e.lengthComputable || e.total <= 0) {
-        return
+      let pct: number | null = null
+      if (e.lengthComputable && e.total > 0) {
+        pct = uploadPercentFromLoadedTotal(e.loaded, e.total)
+      } else if (file.size > 0 && e.loaded > 0) {
+        const approxRatio = Math.min(1, e.loaded / file.size)
+        pct = Math.min(UPLOAD_PROGRESS_CAP, Math.max(1, Math.round(UPLOAD_PROGRESS_CAP * approxRatio)))
       }
-      const ratio = Math.min(1, e.loaded / e.total)
-      onProgress(Math.min(UPLOAD_PROGRESS_CAP, Math.round(UPLOAD_PROGRESS_CAP * ratio)))
+      if (pct !== null) {
+        batch.schedule(pct)
+      }
+    })
+
+    xhr.upload.addEventListener('loadend', () => {
+      batch.schedule(UPLOAD_PROGRESS_CAP)
     })
 
     xhr.addEventListener('load', () => {
+      batch.flushNow()
       if (xhr.status >= 200 && xhr.status < 300) {
         onProgress(100)
         try {
@@ -47,10 +122,12 @@ export function analyzeSpreadsheetWithProgress(
     })
 
     xhr.addEventListener('error', () => {
+      batch.flushNow()
       reject(new Error('Error de red al contactar el servidor.'))
     })
 
     xhr.addEventListener('abort', () => {
+      batch.flushNow()
       reject(new Error('Carga cancelada.'))
     })
 
@@ -71,7 +148,10 @@ export async function analyzeSpreadsheet(file: File): Promise<AnalyzeResponse> {
     method: 'POST',
     body: form,
   })
-  await assertResponseOk(res, { rateLimitSpanish: GEMINI_RATE_LIMIT_ES })
+  await assertResponseOk(res, {
+    rateLimitSpanish: GEMINI_RATE_LIMIT_ES,
+    unavailableSpanish: GEMINI_UNAVAILABLE_ES,
+  })
   return res.json() as Promise<AnalyzeResponse>
 }
 

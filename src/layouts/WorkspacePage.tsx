@@ -6,6 +6,8 @@ type WorkspacePageProps = {
   description?: string
   toolbar?: ReactNode
   children: ReactNode
+  /** Broader max-width for bento / data-heavy layouts (e.g. Stitch data settings). */
+  layoutWide?: boolean
 }
 
 /**
@@ -16,10 +18,11 @@ export function WorkspacePage({
   description,
   toolbar,
   children,
+  layoutWide,
 }: WorkspacePageProps) {
   return (
     <div className={styles.root}>
-      <div className={styles.body}>
+      <div className={[styles.body, layoutWide ? styles.bodyWide : ''].filter(Boolean).join(' ')}>
         <div className={styles.intro}>
           <div>
             <h1 className={styles.title}>{title}</h1>

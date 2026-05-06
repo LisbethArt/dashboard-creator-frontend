@@ -4,6 +4,7 @@ import {
   DASHBOARD_PATH,
   DATA_UPLOAD_PATH,
   EXPORT_REPORT_PATH,
+  PUBLISHED_DASHBOARD_PATH,
   SETTINGS_PATH,
 } from './config/nav'
 import { PortalLayout } from './layouts/portal/PortalLayout'
@@ -13,6 +14,7 @@ import { DataSettingsPage } from './pages/DataSettingsPage'
 import { DataUploadPage } from './pages/DataUploadPage'
 import { ExportReportPage } from './pages/ExportReportPage'
 import { HomePage } from './pages/HomePage'
+import { PublishedDashboardPage } from './pages/PublishedDashboardPage'
 
 /**
  * Top-level routing: landing is public; workspace routes share {@link PortalLayout}.
@@ -30,6 +32,7 @@ export default function App() {
         <Route path={DATA_UPLOAD_PATH} element={<DataUploadPage />} />
         <Route path={AI_SUGGESTIONS_PATH} element={<AiSuggestionsPage />} />
         <Route path={DASHBOARD_PATH} element={<DashboardPage />} />
+        <Route path={PUBLISHED_DASHBOARD_PATH} element={<PublishedDashboardPage />} />
         <Route path={SETTINGS_PATH} element={<DataSettingsPage />} />
         <Route path={EXPORT_REPORT_PATH} element={<ExportReportPage />} />
       </Route>

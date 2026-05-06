@@ -1,21 +1,68 @@
-import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import type { CSSProperties } from 'react'
+import { useMemo } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import type { ChartType } from '../../types/api'
 import { MaterialIcon } from '../../components/MaterialIcon'
-import { DATA_UPLOAD_PATH } from '../../config/nav'
+import { DATA_UPLOAD_PATH, DASHBOARD_PATH } from '../../config/nav'
 import { useAnalysisFlow } from '../../context/AnalysisFlowContext'
 import { WorkspacePage } from '../../layouts/WorkspacePage'
 import { chartTypeLabelEs } from '../../lib/chartLabels'
+import { ChartTypeArtwork } from './ChartTypeArtwork'
+import { formatInsightHighlights } from './insightHighlights'
 import styles from './AiSuggestionsScreen.module.css'
+
+function suggestionCardKey(
+  s: {
+    title: string
+    chart_type: string
+    insight: string
+    parameters: Record<string, string>
+  },
+  index: number,
+): string {
+  const paramKeys = Object.keys(s.parameters).sort().join('|')
+  const paramVals = Object.keys(s.parameters)
+    .sort()
+    .map((k) => s.parameters[k])
+    .join('|')
+  return `${index}:${s.title}:${s.chart_type}:${paramKeys}:${paramVals}:${s.insight.slice(0, 48)}`
+}
+
+type SuggestionTheme = {
+  category: string
+  accent: string
+}
+
+function themeForChartType(chartType: ChartType): SuggestionTheme {
+  switch (chartType) {
+    case 'line':
+      return { category: 'Finanzas', accent: '#13708a' }
+    case 'bar':
+      return { category: 'Operaciones', accent: '#0d9488' }
+    case 'pie':
+      return { category: 'Mercado', accent: '#7c3aed' }
+    case 'scatter':
+      return { category: 'Correlación', accent: '#50a1c7' }
+    default:
+      return { category: 'Análisis', accent: '#13708a' }
+  }
+}
+
+const STATUS_META = ['Nuevo insight', 'Actualizado', 'Listo para revisar'] as const
 
 /**
  * Renders Gemini-backed chart suggestion cards tied to the latest successful upload.
  */
 export function AiSuggestionsScreen() {
-  const { suggestions, uploadId, addWidget } = useAnalysisFlow()
-  const [appliedId, setAppliedId] = useState<string | null>(null)
+  const navigate = useNavigate()
+  const { suggestions, uploadId, addWidget, suggestionIsOnDashboard } = useAnalysisFlow()
 
   const keyed = useMemo(
-    () => suggestions.map((s, idx) => ({ suggestion: s, key: `${s.title}-${idx}` })),
+    () =>
+      suggestions.map((s, idx) => ({
+        suggestion: s,
+        key: suggestionCardKey(s, idx),
+      })),
     [suggestions],
   )
 
@@ -33,66 +80,103 @@ export function AiSuggestionsScreen() {
 
   return (
     <WorkspacePage
-      title="Análisis sugeridos"
-      description="Tarjetas interactivas generadas tras examinar los metadatos y la distribución de sus columnas."
+      title="Sugerencias IA"
+      description="Ideas de visualización basadas en su dataset: agregue las que desee al tablero."
       toolbar={
-        <div className={styles.toggle} role="group" aria-label="Ordenar sugerencias">
-          <button type="button" className={styles.toggleActive}>
-            Recientes
-          </button>
-          <button type="button" className={styles.toggleIdle} disabled>
-            Populares
-          </button>
-        </div>
+        <button
+          type="button"
+          className={styles.toolbarPrimary}
+          disabled={!uploadId || suggestions.length === 0}
+          title={
+            !uploadId || suggestions.length === 0
+              ? 'Se requiere una sesión de datos con sugerencias'
+              : undefined
+          }
+          onClick={() => {
+            if (!uploadId || suggestions.length === 0) {
+              return
+            }
+            navigate(DASHBOARD_PATH)
+          }}
+        >
+          <MaterialIcon name="arrow_forward" />
+          Continuar
+        </button>
       }
     >
       {!uploadId || suggestions.length === 0 ? (
         emptyMessage
       ) : (
         <>
-          <p className={styles.kicker}>Sugerencias del motor IA</p>
+          <p className={styles.pageKicker}>Motor de recomendaciones</p>
           <div className={styles.feed}>
-            {keyed.map(({ suggestion, key }) => (
-              <article key={key} className={styles.card}>
-                <div className={styles.cardTop}>
-                  <span className={styles.badge}>{chartTypeLabelEs(suggestion.chart_type)}</span>
-                  <span className={styles.time}>Listo para el tablero</span>
-                </div>
-                <h2 className={styles.cardTitle}>{suggestion.title}</h2>
-                <div className={styles.insight}>
-                  <MaterialIcon name="lightbulb" />
-                  <p>{suggestion.insight}</p>
-                </div>
-                <div className={styles.spark} aria-hidden>
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                </div>
-                <div className={styles.actions}>
-                  <button
-                    type="button"
-                    className={styles.primary}
-                    aria-label={`Agregar al dashboard: ${suggestion.title}`}
-                    onClick={() => {
-                      addWidget(suggestion)
-                      setAppliedId(key)
-                      setTimeout(() => setAppliedId((current) => (current === key ? null : current)), 2800)
-                    }}
-                  >
-                    Agregar al Dashboard
-                  </button>
-                  {appliedId === key ? (
-                    <span className={styles.feedback} role="status">
-                      Añadido al panel ejecutivo.
-                    </span>
-                  ) : null}
-                </div>
-              </article>
-            ))}
+            {keyed.map(({ suggestion, key }, rowIndex) => {
+              const onDashboard = suggestionIsOnDashboard(suggestion)
+              const theme = themeForChartType(suggestion.chart_type)
+              const statusLine = STATUS_META[rowIndex % STATUS_META.length]
+
+              return (
+                <article
+                  key={key}
+                  className={styles.card}
+                  style={
+                    {
+                      '--suggestion-accent': theme.accent,
+                    } as CSSProperties
+                  }
+                >
+                  <div className={styles.cardMain}>
+                    <div className={styles.cardMetaRow}>
+                      <span className={styles.categoryBadge}>{theme.category}</span>
+                      <span className={styles.statusMeta}>{statusLine}</span>
+                    </div>
+                    <h2 className={styles.cardTitle}>{suggestion.title}</h2>
+                    <div className={styles.insight}>
+                      <MaterialIcon name="insights" className={styles.insightGlyph} filled />
+                      <p className={styles.insightText}>{formatInsightHighlights(suggestion.insight)}</p>
+                    </div>
+                    <div className={styles.actions}>
+                      <button
+                        type="button"
+                        className={[styles.primaryBtn, onDashboard ? styles.primaryBtnDone : '']
+                          .filter(Boolean)
+                          .join(' ')}
+                        disabled={onDashboard}
+                        aria-label={
+                          onDashboard
+                            ? `Ya en el dashboard: ${suggestion.title}`
+                            : `Agregar al dashboard: ${suggestion.title}`
+                        }
+                        onClick={() => {
+                          if (!onDashboard) {
+                            addWidget(suggestion)
+                          }
+                        }}
+                      >
+                        <MaterialIcon name="add_box" />
+                        {onDashboard ? 'Agregado al dashboard' : 'Agregar al Dashboard'}
+                      </button>
+                    </div>
+                  </div>
+                  <div className={styles.cardVisual}>
+                    <span className={styles.visualTypeTag}>{chartTypeLabelEs(suggestion.chart_type)}</span>
+                    <ChartTypeArtwork
+                      kind={suggestion.chart_type}
+                      title={suggestion.title}
+                      className={styles.artworkPanel}
+                    />
+                  </div>
+                </article>
+              )
+            })}
           </div>
+          <p className={styles.pageFoot}>
+            Vista previa interactiva en{' '}
+            <Link className={styles.inlineLink} to={DASHBOARD_PATH}>
+              Previsualización del dashboard
+            </Link>
+            .
+          </p>
         </>
       )}
     </WorkspacePage>

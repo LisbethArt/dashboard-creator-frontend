@@ -1,0 +1,221 @@
+.wrap {
+  padding: var(--space-lg) clamp(16px, 3vw, 48px);
+  background: linear-gradient(
+    175deg,
+    color-mix(in srgb, var(--color-primary) 6%, var(--color-background)) 0%,
+    var(--color-surface-container-low) 55%
+  );
+  border-bottom: 1px solid var(--color-outline-variant);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(12px);
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0;
+}
+
+.stepCell {
+  display: flex;
+  align-items: center;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.stepCellLast {
+  flex: 0 0 auto;
+}
+
+.connectorCell {
+  flex: 1 1 32px;
+  min-width: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-xs);
+  align-self: center;
+}
+
+.connector {
+  width: 100%;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-outline) 55%, transparent);
+  position: relative;
+  overflow: hidden;
+}
+
+.connectorFill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--gradient-primary);
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: var(--shadow-glow-orange);
+}
+
+.connectorFillDone {
+  transform: scaleX(1);
+}
+
+.stepLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 10px 14px;
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--color-on-surface-variant);
+  font-size: var(--text-body-sm-size);
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.28s ease;
+  max-width: 100%;
+}
+
+.stepLink:hover {
+  color: var(--color-on-surface);
+  background: color-mix(in srgb, var(--color-primary) 7%, transparent);
+}
+
+.stepLink:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.stepLinkCurrent {
+  color: var(--color-primary-container);
+  background: color-mix(in srgb, var(--color-primary) 12%, var(--color-surface-container-low));
+  border-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
+  box-shadow: var(--shadow-glow-orange), var(--shadow-card);
+}
+
+.stepLinkDone {
+  color: var(--color-on-surface);
+}
+
+.bubble {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--color-surface-container-low);
+  color: var(--color-slate-500);
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bubble .icon {
+  font-size: 20px;
+}
+
+.stepLinkCurrent .bubble {
+  background: var(--gradient-primary);
+  color: var(--color-on-primary);
+  border-color: transparent;
+  box-shadow: var(--shadow-glow-orange-strong), var(--shadow-card-hover);
+  transform: scale(1.06);
+}
+
+.stepLinkDone .bubble {
+  background: color-mix(in srgb, var(--color-primary-container) 25%, var(--color-surface-container-low));
+  color: var(--color-primary-container);
+}
+
+.stepLinkBlocked {
+  cursor: not-allowed;
+  opacity: 0.52;
+}
+
+.stepLinkBlocked:hover {
+  color: var(--color-on-surface-variant);
+  background: transparent;
+}
+
+.stepLinkBlocked.stepLinkCurrent {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.stepLabels {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  text-align: left;
+}
+
+.stepTitle {
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stepMeta {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-slate-500);
+  line-height: 1.2;
+}
+
+.stepLinkCurrent .stepMeta {
+  color: var(--color-primary-container);
+}
+
+@media (max-width: 767px) {
+  .stepTitle {
+    display: none;
+  }
+
+  .stepMeta {
+    display: none;
+  }
+
+  .stepLink {
+    padding: 8px 10px;
+  }
+
+  .bubble {
+    width: 46px;
+    height: 46px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .connectorFill,
+  .bubble,
+  .stepLink {
+    transition: none;
+  }
+
+  .stepLinkCurrent .bubble {
+    transform: none;
+  }
+}
