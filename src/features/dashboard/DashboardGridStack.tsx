@@ -52,12 +52,12 @@ export function DashboardGridStack({ editable }: DashboardGridStackProps) {
       editable
         ? {
             cellHeight: 72,
-            margin: 16,
+            margin: 10,
             column: 12,
             animate: true,
             float: true,
             staticGrid: false,
-            sizeToContent: true,
+            sizeToContent: false,
             disableDrag: false,
             disableResize: false,
             alwaysShowResizeHandle: true,
@@ -68,79 +68,45 @@ export function DashboardGridStack({ editable }: DashboardGridStackProps) {
               scroll: true,
             },
             resizable: {
-              handles: 'e, se, s, sw, w',
+              handles: 'se',
               autoHide: false,
             },
           }
         : {
             cellHeight: 72,
-            margin: 16,
+            margin: 10,
             column: 12,
             animate: true,
             float: true,
             staticGrid: true,
-            sizeToContent: true,
+            sizeToContent: false,
           },
       root,
     )
     gridRef.current = grid
 
-    const resizeAllToContent = () => {
-      if (!gridRef.current?.engine?.nodes?.length) {
-        return
-      }
-      const g = gridRef.current
-      g.batchUpdate(true)
-      g.engine.nodes.forEach((n) => {
-        if (n.el) {
-          g.resizeToContent(n.el)
-        }
-      })
-      g.batchUpdate(false)
-    }
-
-    let roFrame = 0
-    const scheduleResizeAll = () => {
-      cancelAnimationFrame(roFrame)
-      roFrame = requestAnimationFrame(() => {
-        roFrame = 0
-        resizeAllToContent()
-      })
-    }
-
-    const ro = new ResizeObserver(scheduleResizeAll)
-    root.querySelectorAll<HTMLElement>('[data-dashboard-grid-item-body]').forEach((el) => {
-      ro.observe(el)
-    })
-    scheduleResizeAll()
-    requestAnimationFrame(scheduleResizeAll)
-
     const onChange = () => {
-      const raw = grid.save(false) as Array<{
-        id?: string | number
-        x?: number
-        y?: number
-        w?: number
-        h?: number
-      }>
-      const patches = raw
+      const patches = (grid.engine.nodes ?? [])
         .map((n) => {
-          const id = n.id != null ? String(n.id) : null
-          if (!id || n.x == null || n.y == null || n.w == null || n.h == null) {
+          const nodeId = n.el?.id || n.el?.getAttribute('gs-id') || (n.id != null ? String(n.id) : '')
+          if (!nodeId || n.x == null || n.y == null || n.w == null || n.h == null) {
             return null
           }
-          return { id, x: n.x, y: n.y, w: n.w, h: n.h }
+          return { id: nodeId, x: n.x, y: n.y, w: n.w, h: n.h }
         })
         .filter((p): p is { id: string; x: number; y: number; w: number; h: number } => p !== null)
       if (patches.length > 0) {
         applyDashboardLayoutFromGrid(patches)
       }
     }
-    grid.on('change', onChange)
+    if (editable) {
+      grid.on('change', onChange)
+    }
 
     return () => {
-      cancelAnimationFrame(roFrame)
-      ro.disconnect()
+      if (editable) {
+        grid.off('change')
+      }
       grid.destroy(false)
       gridRef.current = null
     }
@@ -153,13 +119,20 @@ export function DashboardGridStack({ editable }: DashboardGridStackProps) {
   return (
     <div
       ref={rootRef}
-      className={`grid-stack ${styles.gridCanvas} ${editable ? styles.gridCanvasEdit : ''}`.trim()}
+      className={[
+        'grid-stack',
+        styles.gridCanvas,
+        editable ? styles.gridCanvasPreview : styles.gridCanvasReadonly,
+        editable ? styles.gridCanvasEdit : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       data-dashboard-grid={editable ? 'edit' : 'view'}
     >
       {dashboardWidgets.map((widget) => (
         <div key={widget.id} id={widget.id} className="grid-stack-item" {...gsAttrs(widget)}>
           <div className={`grid-stack-item-content ${styles.itemContent}`}>
-            <div className={styles.itemBody} data-dashboard-grid-item-body="">
+            <div className={styles.itemBody}>
               {editable ? (
                 <div
                   className={`${styles.dragHandleRoot} dashboard-grid-drag-handle`}

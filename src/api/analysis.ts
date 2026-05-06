@@ -1,5 +1,11 @@
 import type { AnalyzeResponse, ChartSeriesRequest, ChartSeriesResponse } from '../types/api'
-import { assertResponseOk, GEMINI_RATE_LIMIT_ES, getApiBase, parseErrorDetailFromText } from './http'
+import {
+  assertResponseOk,
+  GEMINI_RATE_LIMIT_ES,
+  GEMINI_UNAVAILABLE_ES,
+  getApiBase,
+  parseErrorDetailFromText,
+} from './http'
 
 /** Upload maps to [1, UPLOAD_PROGRESS_CAP]; server work fills until JSON resolves at 100%. */
 const UPLOAD_PROGRESS_CAP = 95
@@ -46,6 +52,13 @@ function xhrErrorMessage(xhr: XMLHttpRequest): string {
       return detail
     }
     return GEMINI_RATE_LIMIT_ES
+  }
+  if (xhr.status === 503) {
+    const detail = parseErrorDetailFromText(xhr.responseText || xhr.statusText).trim()
+    if (detail.length > 0) {
+      return detail
+    }
+    return GEMINI_UNAVAILABLE_ES
   }
   return parseErrorDetailFromText(xhr.responseText || xhr.statusText)
 }
@@ -135,7 +148,10 @@ export async function analyzeSpreadsheet(file: File): Promise<AnalyzeResponse> {
     method: 'POST',
     body: form,
   })
-  await assertResponseOk(res, { rateLimitSpanish: GEMINI_RATE_LIMIT_ES })
+  await assertResponseOk(res, {
+    rateLimitSpanish: GEMINI_RATE_LIMIT_ES,
+    unavailableSpanish: GEMINI_UNAVAILABLE_ES,
+  })
   return res.json() as Promise<AnalyzeResponse>
 }
 

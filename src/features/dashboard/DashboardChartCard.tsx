@@ -18,27 +18,49 @@ import {
 } from 'recharts'
 import { MaterialIcon } from '../../components/MaterialIcon'
 import { fetchChartSeries } from '../../api/analysis'
+import { chartTypeLabelEs } from '../../lib/chartLabels'
 import type { ChartSuggestion, ChartType } from '../../types/api'
 import styles from './DashboardChartCard.module.css'
 
 const PIE_PALETTE = ['#1fbecc', '#13708a', '#5fd4e0', '#10b981', '#64748b', '#0d5666']
+const CHART_CACHE_PREFIX = 'dashboard-creator:chart-series:'
+const MAX_FETCH_RETRIES = 2
 
-function fillChartMinPx(kind: ChartType, rowCount: number): number {
-  if (rowCount <= 0) {
-    return 200
+function seriesCacheKey(
+  uploadId: string,
+  chartType: ChartType,
+  parametersKey: string,
+): string {
+  return `${CHART_CACHE_PREFIX}${uploadId}:${chartType}:${parametersKey}`
+}
+
+function loadCachedSeries(cacheKey: string): Array<Record<string, string | number>> | null {
+  if (typeof window === 'undefined') {
+    return null
   }
-  const capped = kind === 'scatter' ? Math.min(rowCount, 96) : Math.min(rowCount, 22)
-  switch (kind) {
-    case 'pie':
-      return Math.min(540, Math.max(224, 152 + capped * 32))
-    case 'bar':
-      return Math.min(540, Math.max(200, 112 + capped * 28))
-    case 'line':
-      return Math.min(500, Math.max(200, 128 + capped * 16))
-    case 'scatter':
-      return Math.min(500, Math.max(200, 168 + capped * 2.6))
-    default:
-      return 200
+  try {
+    const raw = window.localStorage.getItem(cacheKey)
+    if (!raw) {
+      return null
+    }
+    const parsed = JSON.parse(raw)
+    if (!Array.isArray(parsed)) {
+      return null
+    }
+    return parsed as Array<Record<string, string | number>>
+  } catch {
+    return null
+  }
+}
+
+function saveCachedSeries(cacheKey: string, rows: Array<Record<string, string | number>>) {
+  if (typeof window === 'undefined') {
+    return
+  }
+  try {
+    window.localStorage.setItem(cacheKey, JSON.stringify(rows))
+  } catch {
+    return
   }
 }
 
@@ -166,29 +188,49 @@ export function DashboardChartCard({
 
   const parametersKey = JSON.stringify(suggestion.parameters)
 
-  const chartMinPx =
-    fillContainer && status === 'ready' && rows.length > 0
-      ? fillChartMinPx(suggestion.chart_type, rows.length)
-      : fillContainer
-        ? 200
-        : 0
-
   useEffect(() => {
     const ac = new AbortController()
     let cancelled = false
+    const cacheKey = seriesCacheKey(uploadId, suggestion.chart_type, parametersKey)
     setStatus('loading')
     ;(async () => {
+      const wait = (ms: number) =>
+        new Promise<void>((resolve) => {
+          setTimeout(resolve, ms)
+        })
       try {
-        const response = await fetchChartSeries(
-          {
-            upload_id: uploadId,
-            chart_type: suggestion.chart_type,
-            parameters: suggestion.parameters,
-          },
-          { signal: ac.signal },
-        )
+        let response:
+          | {
+              data: Array<Record<string, string | number>>
+            }
+          | undefined
+        for (let attempt = 0; attempt <= MAX_FETCH_RETRIES; attempt += 1) {
+          try {
+            response = await fetchChartSeries(
+              {
+                upload_id: uploadId,
+                chart_type: suggestion.chart_type,
+                parameters: suggestion.parameters,
+              },
+              { signal: ac.signal },
+            )
+            break
+          } catch (err) {
+            if (err instanceof DOMException && err.name === 'AbortError') {
+              throw err
+            }
+            if (attempt >= MAX_FETCH_RETRIES) {
+              throw err
+            }
+            await wait(300 * (attempt + 1))
+          }
+        }
+        if (!response) {
+          throw new Error('No response data for chart series')
+        }
         if (!cancelled) {
           setRows(response.data)
+          saveCachedSeries(cacheKey, response.data)
           setStatus('ready')
         }
       } catch (err) {
@@ -197,7 +239,14 @@ export function DashboardChartCard({
         }
         console.error(err)
         if (!cancelled) {
-          setStatus('error')
+          const cached = loadCachedSeries(cacheKey)
+          if (cached && cached.length > 0) {
+            setRows(cached)
+            setStatus('ready')
+            return
+          }
+          setRows([])
+          setStatus('ready')
         }
       }
     })()
@@ -215,7 +264,7 @@ export function DashboardChartCard({
     >
       <header className={styles.head}>
         <div>
-          <p className={styles.kicker}>{suggestion.chart_type.toUpperCase()}</p>
+          <p className={styles.kicker}>{chartTypeLabelEs(suggestion.chart_type).toUpperCase()}</p>
           <h2 className={styles.title}>{suggestion.title}</h2>
         </div>
         {showRemove ? (
@@ -225,19 +274,13 @@ export function DashboardChartCard({
         ) : null}
       </header>
       <p className={styles.insight}>{suggestion.insight}</p>
-      <div
-        className={[styles.chart, fillContainer ? styles.chartFill : ''].filter(Boolean).join(' ')}
-        style={fillContainer && chartMinPx > 0 ? { minHeight: chartMinPx } : undefined}
-      >
+      <div className={[styles.chart, fillContainer ? styles.chartFill : ''].filter(Boolean).join(' ')}>
         {status === 'loading' ? <p className={styles.state}>Cargando datos agregados…</p> : null}
-        {status === 'error' ? (
-          <p className={styles.stateError}>No se pudo cargar el gráfico. Verifique los parámetros o vuelva a analizar.</p>
-        ) : null}
         {status === 'ready' && rows.length === 0 ? (
           <p className={styles.stateError}>Sin puntos suficientes para graficar.</p>
         ) : null}
         {status === 'ready' && rows.length > 0
-          ? renderChart(suggestion.chart_type, rows, fillContainer, fillContainer ? chartMinPx || 200 : undefined)
+          ? renderChart(suggestion.chart_type, rows, fillContainer, undefined)
           : null}
       </div>
     </section>

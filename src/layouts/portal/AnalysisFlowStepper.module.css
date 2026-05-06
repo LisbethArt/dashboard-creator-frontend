@@ -122,7 +122,6 @@
   flex-shrink: 0;
   background: var(--color-surface-container-low);
   color: var(--color-slate-500);
-  border: 1px solid var(--color-outline-variant);
   transition:
     background 0.3s ease,
     color 0.3s ease,

@@ -76,14 +76,31 @@
 }
 
 .docPage {
-  max-width: 520px;
+  max-width: 760px;
   margin: 0 auto;
   background: var(--color-solid-surface);
   border-radius: 12px;
   border: 1px solid var(--color-slate-200);
   padding: var(--space-xl);
-  min-height: 420px;
+  min-height: 520px;
   box-shadow: var(--shadow-card);
+}
+
+.reportHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-lg);
+}
+
+.reportMeta {
+  min-width: 200px;
+  font-size: 12px;
+  color: var(--color-slate-500);
+}
+
+.reportMeta p {
+  margin: 0 0 4px;
 }
 
 .docKicker {
@@ -107,22 +124,26 @@
   font-size: 14px;
 }
 
-.docBlocks {
+.reportWidgets {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-md);
 }
 
-.docBlock {
-  height: 72px;
-  border-radius: 10px;
-  background: linear-gradient(90deg, var(--color-slate-200) 0%, var(--color-slate-100) 100%);
+.emptyReport {
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--color-slate-500);
+  border: 1px dashed var(--color-slate-200);
+  border-radius: var(--radius-lg);
 }
 
-.docBlockShort {
-  height: 48px;
-  border-radius: 10px;
-  background: linear-gradient(90deg, var(--color-primary-subtle-bg) 0%, var(--color-primary-fixed) 100%);
+.emptyReport span {
+  font-size: 26px;
 }
 
 .options {
@@ -144,27 +165,35 @@
   font-size: 1rem;
 }
 
-.radios {
+.formatSingle {
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
   gap: 10px;
+  border: 1px solid var(--color-primary-subtle-border);
+  background: var(--color-primary-subtle-bg);
+  border-radius: var(--radius-md);
+  padding: 12px;
 }
 
-.radio {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  color: var(--color-slate-700);
+.formatSingle > span {
+  color: var(--color-link-interactive);
 }
 
-.check {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.formatTitle {
+  margin: 0;
+  font-weight: 700;
+}
+
+.formatDesc {
+  margin: 2px 0 0;
+  font-size: 14px;
+  color: var(--color-slate-600);
+}
+
+.contentItem {
+  margin: 0 0 10px;
   font-size: 14px;
   color: var(--color-slate-700);
-  margin-bottom: 8px;
 }
 
 .exportBtn {
@@ -179,8 +208,14 @@
   color: var(--color-on-primary);
   font-weight: 700;
   box-shadow: var(--shadow-button-elevated);
+  cursor: pointer;
 }
 
 .exportBtn:hover {
   opacity: 0.95;
+}
+
+.exportBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }

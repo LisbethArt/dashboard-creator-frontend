@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 import { useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import type { ChartType } from '../../types/api'
 import { MaterialIcon } from '../../components/MaterialIcon'
 import { DATA_UPLOAD_PATH, DASHBOARD_PATH } from '../../config/nav'
@@ -54,6 +54,7 @@ const STATUS_META = ['Nuevo insight', 'Actualizado', 'Listo para revisar'] as co
  * Renders Gemini-backed chart suggestion cards tied to the latest successful upload.
  */
 export function AiSuggestionsScreen() {
+  const navigate = useNavigate()
   const { suggestions, uploadId, addWidget, suggestionIsOnDashboard } = useAnalysisFlow()
 
   const keyed = useMemo(
@@ -81,6 +82,27 @@ export function AiSuggestionsScreen() {
     <WorkspacePage
       title="Sugerencias IA"
       description="Ideas de visualización basadas en su dataset: agregue las que desee al tablero."
+      toolbar={
+        <button
+          type="button"
+          className={styles.toolbarPrimary}
+          disabled={!uploadId || suggestions.length === 0}
+          title={
+            !uploadId || suggestions.length === 0
+              ? 'Se requiere una sesión de datos con sugerencias'
+              : undefined
+          }
+          onClick={() => {
+            if (!uploadId || suggestions.length === 0) {
+              return
+            }
+            navigate(DASHBOARD_PATH)
+          }}
+        >
+          <MaterialIcon name="arrow_forward" />
+          Continuar
+        </button>
+      }
     >
       {!uploadId || suggestions.length === 0 ? (
         emptyMessage

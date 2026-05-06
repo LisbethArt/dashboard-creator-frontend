@@ -1,18 +1,19 @@
 .itemContent {
   display: flex;
   flex-direction: column;
-  height: 100%;
   min-height: 0;
   border-radius: var(--radius-xl);
-  background: var(--color-solid-surface);
-  box-shadow: var(--shadow-card);
+  background: transparent;
+  box-shadow: none;
+  overflow: hidden;
 }
 
 .itemBody {
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: min-content;
+  min-height: 0;
+  height: 100%;
   flex: 1 1 auto;
 }
 
@@ -47,22 +48,35 @@
 }
 
 .gridCanvas {
-  background: var(--color-slate-100);
   border-radius: var(--radius-xl);
-  padding: var(--space-md);
   min-height: 200px;
 }
 
-/* Keep GridStack drag/resize active; tiradores visibles al estilo demo */
+.gridCanvasPreview {
+  background: var(--color-slate-100);
+  padding: 4px;
+}
+
+.gridCanvasReadonly {
+  background: transparent;
+  padding: 0;
+}
+
+.gridCanvas :global(.grid-stack-item) {
+  box-sizing: border-box;
+  min-height: 0;
+}
+
+.gridCanvas :global(.grid-stack-item > .grid-stack-item-content) {
+  box-sizing: border-box;
+  inset: var(--gs-item-margin-top) var(--gs-item-margin-right) var(--gs-item-margin-bottom)
+    var(--gs-item-margin-left);
+  min-height: 0;
+  max-height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
 .gridCanvasEdit :global(.grid-stack-item) {
   touch-action: none;
-}
-
-.gridCanvasEdit :global(.grid-stack-item > .ui-resizable-handle) {
-  opacity: 1;
-  background: rgba(31, 190, 204, 0.18);
-}
-
-.gridCanvasEdit :global(.grid-stack-item > .ui-resizable-se) {
-  background: rgba(31, 190, 204, 0.32);
 }
