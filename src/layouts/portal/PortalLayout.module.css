@@ -19,10 +19,31 @@
   min-width: 0;
 }
 
+.mobileBackdrop {
+  display: none;
+}
+
 .scrollMain {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
   background: color-mix(in srgb, var(--color-background) 92%, var(--color-surface-container-low));
+}
+
+@media (max-width: 1023px) {
+  .mainColumn {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .mobileBackdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 35;
+    border: 0;
+    background: color-mix(in srgb, var(--color-background) 55%, transparent);
+    backdrop-filter: blur(2px);
+  }
 }

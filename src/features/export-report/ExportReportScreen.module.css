@@ -86,6 +86,10 @@
   box-shadow: var(--shadow-card);
 }
 
+.reportContent {
+  background: var(--color-solid-surface);
+}
+
 .reportHead {
   display: flex;
   align-items: flex-start;

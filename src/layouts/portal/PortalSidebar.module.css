@@ -13,6 +13,11 @@
   box-shadow:
     inset -1px 0 0 color-mix(in srgb, var(--color-primary) 6%, transparent),
     4px 0 32px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease;
+}
+
+.sidebarOpen {
+  transform: translateX(0);
 }
 
 .brand {
@@ -113,4 +118,15 @@
   color: var(--color-on-surface-variant);
   border-color: transparent;
   box-shadow: none;
+}
+
+@media (max-width: 1023px) {
+  .sidebar {
+    width: min(86vw, 320px);
+    transform: translateX(-100%);
+  }
+
+  .sidebar.sidebarOpen {
+    transform: translateX(0);
+  }
 }

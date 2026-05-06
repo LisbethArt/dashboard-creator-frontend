@@ -83,46 +83,48 @@ export function ExportReportScreen() {
             <span className={styles.badge}>Página 1 de 1</span>
           </header>
           <div className={styles.previewDoc}>
-            <div className={styles.docPage} ref={reportRef}>
-              <div className={styles.reportHead}>
-                <div>
-                  <p className={styles.docKicker}>Análisis al instante</p>
-                  <h2 className={styles.docHeadline}>Informe de Dashboard</h2>
-                </div>
-                <div className={styles.reportMeta}>
-                  <p>
-                    <strong>Fecha:</strong> {exportDateLabel}
-                  </p>
-                  <p>
-                    <strong>Archivo:</strong> {activeFileLabel ?? 'Dataset cargado'}
-                  </p>
-                  {datasetProfile ? (
+            <div className={styles.docPage}>
+              <div className={styles.reportContent} ref={reportRef}>
+                <div className={styles.reportHead}>
+                  <div>
+                    <p className={styles.docKicker}>Análisis al instante</p>
+                    <h2 className={styles.docHeadline}>Informe de Dashboard</h2>
+                  </div>
+                  <div className={styles.reportMeta}>
                     <p>
-                      <strong>Registros:</strong> {datasetProfile.row_count.toLocaleString('es-ES')}
+                      <strong>Fecha:</strong> {exportDateLabel}
                     </p>
-                  ) : null}
+                    <p>
+                      <strong>Archivo:</strong> {activeFileLabel ?? 'Dataset cargado'}
+                    </p>
+                    {datasetProfile ? (
+                      <p>
+                        <strong>Registros:</strong> {datasetProfile.row_count.toLocaleString('es-ES')}
+                      </p>
+                    ) : null}
+                  </div>
                 </div>
+                {datasetProfile ? <p className={styles.docLead}>{datasetProfile.ai_hint}</p> : null}
+                {canExport ? (
+                  <div className={styles.reportWidgets}>
+                    {dashboardWidgets.map((widget) => (
+                      <DashboardChartCard
+                        key={widget.id}
+                        widgetId={widget.id}
+                        uploadId={uploadId as string}
+                        suggestion={widget.suggestion}
+                        onRemove={() => {}}
+                        showRemove={false}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className={styles.emptyReport}>
+                    <MaterialIcon name="analytics" />
+                    <p>Agregue visualizaciones en Dashboard para habilitar la exportación en PDF.</p>
+                  </div>
+                )}
               </div>
-              {datasetProfile ? <p className={styles.docLead}>{datasetProfile.ai_hint}</p> : null}
-              {canExport ? (
-                <div className={styles.reportWidgets}>
-                  {dashboardWidgets.map((widget) => (
-                    <DashboardChartCard
-                      key={widget.id}
-                      widgetId={widget.id}
-                      uploadId={uploadId as string}
-                      suggestion={widget.suggestion}
-                      onRemove={() => {}}
-                      showRemove={false}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <div className={styles.emptyReport}>
-                  <MaterialIcon name="analytics" />
-                  <p>Agregue visualizaciones en Dashboard para habilitar la exportación en PDF.</p>
-                </div>
-              )}
             </div>
           </div>
         </section>
@@ -140,7 +142,7 @@ export function ExportReportScreen() {
           </div>
 
           <div className={styles.optionCard}>
-            <h3 className={styles.optionTitle}>Contenido incluido</h3>
+            <h3 className={styles.optionTitle}>Contenido incluído</h3>
             <p className={styles.contentItem}>Resumen ejecutivo del análisis</p>
             <p className={styles.contentItem}>Gráficas seleccionadas en Dashboard</p>
             <p className={styles.contentItem}>Insights generados por IA por visualización</p>

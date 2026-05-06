@@ -62,6 +62,14 @@
   gap: var(--space-md);
 }
 
+@media (max-width: 899px) {
+  .navInner {
+    grid-template-columns: 1fr auto;
+    height: 64px;
+    gap: var(--space-sm);
+  }
+}
+
 .brand {
   display: inline-flex;
   align-items: center;
@@ -93,6 +101,12 @@
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--color-on-surface);
+}
+
+@media (max-width: 520px) {
+  .brandWordmark {
+    display: none;
+  }
 }
 
 .navLinks {
@@ -412,6 +426,7 @@
   position: relative;
   width: 300px;
   height: 300px;
+  max-width: 100%;
 }
 
 @media (min-width: 768px) {
@@ -506,6 +521,33 @@
   animation-delay: 1s;
 }
 
+@media (max-width: 767px) {
+  .holoCardTop {
+    top: 12px;
+    right: 12px;
+    padding: var(--space-sm);
+  }
+
+  .holoCardBottom {
+    bottom: 18px;
+    left: 12px;
+    padding: var(--space-sm);
+  }
+
+  .holoValueOrange,
+  .holoValueGold {
+    font-size: 1.2rem;
+  }
+
+  .mockKpis {
+    grid-template-columns: 1fr;
+  }
+
+  .mockTop {
+    flex-wrap: wrap;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .holoCardTop,
   .holoCardBottom {
@@ -591,6 +633,10 @@
     grid-template-columns: 1.65fr 1fr;
     align-items: stretch;
   }
+
+  .showcaseGrid > * {
+    min-height: 100%;
+  }
 }
 
 .mockCard {
@@ -606,6 +652,7 @@
   .mockCard {
     display: flex;
     flex-direction: column;
+    height: 100%;
   }
 
   .mockChart {
@@ -746,14 +793,10 @@
 }
 
 @media (min-width: 1024px) {
-  .showcaseAside {
-    height: 100%;
-  }
-
   .showcaseAside .glassPanel,
   .showcaseAside .glassPanelAccent {
-    flex: 1 1 0;
-    min-height: 0;
+    flex: 0 0 auto;
+    min-height: fit-content;
   }
 
   .showcaseAside .glassPanel {

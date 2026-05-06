@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { isAnalysisFlowPath } from '../../config/nav'
 import { AnalysisFlowStepper } from './AnalysisFlowStepper'
@@ -15,12 +16,28 @@ export function PortalLayout() {
   const location = useLocation()
   const reduceMotion = useReducedMotion()
   const showAnalysisStepper = isAnalysisFlowPath(location.pathname)
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
+
+  useEffect(() => {
+    setIsMobileSidebarOpen(false)
+  }, [location.pathname])
 
   return (
     <div className={styles.shell}>
-      <PortalSidebar />
+      <PortalSidebar
+        isMobileOpen={isMobileSidebarOpen}
+        onClose={() => setIsMobileSidebarOpen(false)}
+      />
+      {isMobileSidebarOpen ? (
+        <button
+          type="button"
+          className={styles.mobileBackdrop}
+          onClick={() => setIsMobileSidebarOpen(false)}
+          aria-label="Cerrar menú lateral"
+        />
+      ) : null}
       <div className={styles.mainColumn}>
-        <PortalHeader />
+        <PortalHeader onToggleMobileMenu={() => setIsMobileSidebarOpen((current) => !current)} />
         <div className={styles.scrollMain}>
           {showAnalysisStepper ? <AnalysisFlowStepper /> : null}
           <motion.div
