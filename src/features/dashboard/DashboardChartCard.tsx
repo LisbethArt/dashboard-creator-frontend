@@ -68,6 +68,11 @@ function barChartBottomMargin(barCount: number): number {
   return Math.min(104, Math.max(10, 10 + Math.min(barCount, 24) * (barCount > 14 ? 6 : 4)))
 }
 
+function hasMinimumPoints(kind: ChartType, rows: Array<Record<string, string | number>>): boolean {
+  const minimum = kind === 'scatter' ? 3 : 2
+  return rows.length >= minimum
+}
+
 type DashboardChartCardProps = {
   widgetId: string
   uploadId: string
@@ -187,6 +192,7 @@ export function DashboardChartCard({
   const [rows, setRows] = useState<Array<Record<string, string | number>>>([])
 
   const parametersKey = JSON.stringify(suggestion.parameters)
+  const canRender = hasMinimumPoints(suggestion.chart_type, rows)
 
   useEffect(() => {
     const ac = new AbortController()
@@ -240,7 +246,7 @@ export function DashboardChartCard({
         console.error(err)
         if (!cancelled) {
           const cached = loadCachedSeries(cacheKey)
-          if (cached && cached.length > 0) {
+          if (cached && hasMinimumPoints(suggestion.chart_type, cached)) {
             setRows(cached)
             setStatus('ready')
             return
@@ -276,10 +282,10 @@ export function DashboardChartCard({
       <p className={styles.insight}>{suggestion.insight}</p>
       <div className={[styles.chart, fillContainer ? styles.chartFill : ''].filter(Boolean).join(' ')}>
         {status === 'loading' ? <p className={styles.state}>Cargando datos agregados…</p> : null}
-        {status === 'ready' && rows.length === 0 ? (
-          <p className={styles.stateError}>Sin puntos suficientes para graficar.</p>
+        {status === 'ready' && !canRender ? (
+          <p className={styles.state}>Sin puntos suficientes para graficar en esta sugerencia.</p>
         ) : null}
-        {status === 'ready' && rows.length > 0
+        {status === 'ready' && canRender
           ? renderChart(suggestion.chart_type, rows, fillContainer, undefined)
           : null}
       </div>

@@ -12,10 +12,15 @@ import styles from './PortalSidebar.module.css'
 
 const LAST_ANALYSIS_STEP_KEY = 'dashboard-creator:last-analysis-step'
 
+type PortalSidebarProps = {
+  isMobileOpen: boolean
+  onClose: () => void
+}
+
 /**
  * Primary workspace navigation (brand + shell links). Shared across all authenticated-style routes.
  */
-export function PortalSidebar() {
+export function PortalSidebar({ isMobileOpen, onClose }: PortalSidebarProps) {
   const { pathname } = useLocation()
   const [lastAnalysisStep, setLastAnalysisStep] = useState<string>(() => {
     if (typeof window === 'undefined') {
@@ -44,7 +49,7 @@ export function PortalSidebar() {
   const hasCompletedStepFour = lastAnalysisStep === DASHBOARD_PATH
 
   return (
-    <aside className={styles.sidebar}>
+    <aside className={[styles.sidebar, isMobileOpen ? styles.sidebarOpen : ''].filter(Boolean).join(' ')}>
       <div className={styles.brand}>
         <div className={styles.brandMark} aria-hidden>
           <MaterialIcon name="bolt" className={styles.brandIcon} />
@@ -68,7 +73,9 @@ export function PortalSidebar() {
               onClick={(e) => {
                 if (isLocked) {
                   e.preventDefault()
+                  return
                 }
+                onClose()
               }}
               className={({ isActive }) => {
                 const active =
