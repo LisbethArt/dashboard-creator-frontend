@@ -8,6 +8,10 @@
   margin: 0 auto;
 }
 
+.bodyWide {
+  max-width: 1600px;
+}
+
 .intro {
   display: flex;
   flex-direction: column;
@@ -25,9 +29,11 @@
 
 .title {
   margin: 0;
+  font-family: var(--font-heading), system-ui, sans-serif;
   font-size: var(--text-h1-size);
   font-weight: var(--text-h1-weight);
   line-height: var(--text-h1-line);
+  letter-spacing: -0.03em;
   color: var(--color-on-surface);
 }
 

@@ -35,9 +35,9 @@ export async function readErrorDetail(res: Response): Promise<string> {
   return parseErrorDetailFromText(text)
 }
 
-/** Short Spanish copy when Gemini returns HTTP 429 (quota / rate limit). */
+/** Spanish copy when analyze hits HTTP 429 after exhausting Gemini model fallbacks on the server. */
 export const GEMINI_RATE_LIMIT_ES =
-  'Cuota o límite de la API de Gemini alcanzado. Espera uno o dos minutos o revisa tu plan en Google AI Studio (https://aistudio.google.com). En el servidor pon GEMINI_MODEL=gemini-2.5-flash-lite en .env (modelo económico recomendado) y reinicia Uvicorn.'
+  'Cuota o límite de la API de Gemini alcanzado en todos los modelos probados automáticamente en el servidor (económicos primero y, en última instancia, modelos más potentes). Espere uno o dos minutos o revise su plan en Google AI Studio (https://aistudio.google.com).'
 
 export async function assertResponseOk(
   res: Response,
@@ -47,7 +47,8 @@ export async function assertResponseOk(
     return
   }
   if (res.status === 429 && options?.rateLimitSpanish) {
-    throw new Error(options.rateLimitSpanish)
+    const detail = (await readErrorDetail(res)).trim()
+    throw new Error(detail.length > 0 ? detail : options.rateLimitSpanish)
   }
   throw new Error(await readErrorDetail(res))
 }

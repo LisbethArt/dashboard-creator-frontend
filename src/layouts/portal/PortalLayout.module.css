@@ -1,7 +1,12 @@
 .shell {
   min-height: 100vh;
   display: flex;
-  background: var(--color-slate-50);
+  background: var(--color-background);
+  background-image:
+    radial-gradient(ellipse 80% 55% at 50% -8%, rgba(31, 190, 204, 0.07), transparent 55%),
+    linear-gradient(to right, color-mix(in srgb, var(--color-outline) 12%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-outline) 12%, transparent) 1px, transparent 1px);
+  background-size: auto, 44px 44px, 44px 44px;
 }
 
 .mainColumn {
@@ -19,5 +24,5 @@
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  background: #f8fafc;
+  background: color-mix(in srgb, var(--color-background) 92%, var(--color-surface-container-low));
 }

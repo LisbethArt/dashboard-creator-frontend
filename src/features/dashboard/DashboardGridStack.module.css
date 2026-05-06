@@ -1,0 +1,61 @@
+.itemContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--color-solid-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.dragHandleRoot {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 10px 14px;
+  cursor: grab;
+  background: linear-gradient(180deg, var(--color-slate-50) 0%, var(--color-slate-100) 100%);
+  border-bottom: 1px solid var(--color-slate-200);
+  flex-shrink: 0;
+  user-select: none;
+  touch-action: none;
+}
+
+.dragHandleRoot:active {
+  cursor: grabbing;
+}
+
+.dragIcon {
+  font-size: 22px;
+  color: var(--color-primary-container);
+}
+
+.dragLabel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-slate-600);
+  text-transform: uppercase;
+}
+
+.gridCanvas {
+  background: var(--color-slate-100);
+  border-radius: var(--radius-xl);
+  padding: 8px;
+  min-height: 200px;
+}
+
+/* Keep GridStack drag/resize active; tiradores visibles al estilo demo */
+.gridCanvasEdit :global(.grid-stack-item) {
+  touch-action: none;
+}
+
+.gridCanvasEdit :global(.grid-stack-item > .ui-resizable-handle) {
+  opacity: 1;
+  background: rgba(31, 190, 204, 0.18);
+}
+
+.gridCanvasEdit :global(.grid-stack-item > .ui-resizable-se) {
+  background: rgba(31, 190, 204, 0.32);
+}

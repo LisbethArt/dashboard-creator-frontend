@@ -10,7 +10,7 @@ Aplicación **React (Vite)** para el flujo de carga de hojas de cálculo, visual
 | **React Router** | Landing pública (`/`) y portal con rutas de trabajo bajo un layout compartido. |
 | **Recharts** | Gráficos a partir de los puntos que devuelve `POST /api/charts/series`. |
 | **Framer Motion** | Transiciones ligeras en pantallas clave. |
-| **XMLHttpRequest en la carga** | Barra de progreso real del *upload* hasta ~95 %; el 100 % llega cuando el backend termina (perfilado + IA + persistencia). |
+| **XMLHttpRequest (`xhr.upload`)** | Avance por bytes (`ProgressEvent.loaded` / `total`) escalado a **1–95 %** durante la subida; los eventos se agrupan con **`requestAnimationFrame`** para no saturar renders; si el navegador no expone `total`, se estima con el tamaño del `File`. El **100 %** solo tras respuesta JSON del backend (perfilado + Gemini + persistencia). |
 
 ## Variables de entorno
 

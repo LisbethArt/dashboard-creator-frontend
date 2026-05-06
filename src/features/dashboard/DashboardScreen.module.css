@@ -5,7 +5,7 @@
 }
 
 .empty {
-  background: #fff;
+  background: var(--color-solid-surface);
   border-radius: var(--radius-xl);
   border: 1px dashed var(--color-slate-200);
   padding: clamp(28px, 4vw, 48px);
@@ -33,15 +33,55 @@
   font-weight: 700;
   text-decoration: none;
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-on-primary);
 }
 
 .warn {
   margin: 0 0 var(--space-md);
   padding: var(--space-md);
   border-radius: var(--radius-md);
-  background: #fff7ed;
-  border: 1px solid #fed7aa;
-  color: #9a3412;
+  background: var(--color-primary-subtle-bg);
+  border: 1px solid var(--color-primary-subtle-border);
+  color: var(--color-info-soft-text);
   font-weight: 600;
+}
+
+.gridHint {
+  margin: 0 0 var(--space-md);
+  font-size: 14px;
+  color: var(--color-on-surface-variant);
+}
+
+.gridHintLink {
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.gridHintLink:hover {
+  text-decoration: underline;
+}
+
+.emptyActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  justify-content: center;
+}
+
+.emptyCtaSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--color-slate-100);
+  color: var(--color-slate-800);
+  border: 1px solid var(--color-slate-200);
+}
+
+.emptyCtaSecondary:hover {
+  background: var(--color-slate-200);
 }

@@ -1,11 +1,13 @@
 import { useCallback, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { MaterialIcon } from '../../components/MaterialIcon'
 import { useAnalysisFlow } from '../../context/AnalysisFlowContext'
 import { WorkspacePage } from '../../layouts/WorkspacePage'
 import styles from './DataUploadScreen.module.css'
 
 const ACCEPT = '.csv,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv'
+
+/** Server pipeline limit aligned with practical browser uploads. */
+const MAX_FILE_BYTES = 50 * 1024 * 1024
 
 function pickFirstFile(list: FileList | null): File | null {
   if (!list?.length) {
@@ -19,6 +21,20 @@ function pickFirstFile(list: FileList | null): File | null {
   return null
 }
 
+function validateSpreadsheetFile(file: File): string | null {
+  const name = file.name.toLowerCase()
+  if (!name.endsWith('.csv') && !name.endsWith('.xlsx')) {
+    return 'Solo se admiten archivos .csv o .xlsx.'
+  }
+  if (file.size === 0) {
+    return 'El archivo está vacío.'
+  }
+  if (file.size > MAX_FILE_BYTES) {
+    return `El archivo supera el tamaño máximo permitido (${MAX_FILE_BYTES / (1024 * 1024)} MB).`
+  }
+  return null
+}
+
 /**
  * Spreadsheet upload workspace with drag-and-drop and AI analysis orchestration.
  *
@@ -27,6 +43,7 @@ function pickFirstFile(list: FileList | null): File | null {
 export function DataUploadScreen() {
   const inputRef = useRef<HTMLInputElement>(null)
   const [dragOver, setDragOver] = useState(false)
+  const [clientError, setClientError] = useState<string | null>(null)
   const { isAnalyzing, analysisProgress, activeFileLabel, lastError, clearError, runAnalysis } =
     useAnalysisFlow()
 
@@ -35,9 +52,30 @@ export function DataUploadScreen() {
       if (!file || isAnalyzing) {
         return
       }
+      setClientError(null)
+      const invalid = validateSpreadsheetFile(file)
+      if (invalid) {
+        setClientError(invalid)
+        return
+      }
       void runAnalysis(file)
     },
     [isAnalyzing, runAnalysis],
+  )
+
+  const tryIngestList = useCallback(
+    (list: FileList | null) => {
+      if (!list?.length) {
+        return
+      }
+      const file = pickFirstFile(list)
+      if (!file) {
+        setClientError('Solo se admiten archivos .csv o .xlsx.')
+        return
+      }
+      ingest(file)
+    },
+    [ingest],
   )
 
   return (
@@ -57,7 +95,7 @@ export function DataUploadScreen() {
           onDrop={(e) => {
             e.preventDefault()
             setDragOver(false)
-            ingest(pickFirstFile(e.dataTransfer.files))
+            tryIngestList(e.dataTransfer.files)
           }}
         >
           <input
@@ -67,7 +105,7 @@ export function DataUploadScreen() {
             className={styles.fileInput}
             aria-label="Seleccionar archivo CSV o Excel"
             onChange={(e) => {
-              ingest(pickFirstFile(e.target.files))
+              tryIngestList(e.target.files)
               e.target.value = ''
             }}
           />
@@ -127,11 +165,20 @@ export function DataUploadScreen() {
             <p className={styles.sideMeta}>
               {isAnalyzing
                 ? analysisProgress < 95
-                  ? 'Subiendo el archivo al servidor (porcentaje real según bytes enviados).'
-                  : 'Archivo recibido. Perfilando datos, Gemini y persistencia en Supabase…'
+                  ? 'Subiendo el archivo al servidor'
+                  : 'Cargando archivo y procesando datos...'
                 : 'Suba un archivo para iniciar el flujo automático.'}
             </p>
           </div>
+          {clientError ? (
+            <div className={styles.errorCard} role="alert">
+              <p className={styles.errorTitle}>Archivo no válido</p>
+              <p className={styles.errorBody}>{clientError}</p>
+              <button type="button" className={styles.errorDismiss} onClick={() => setClientError(null)}>
+                Cerrar
+              </button>
+            </div>
+          ) : null}
           {lastError ? (
             <div className={styles.errorCard} role="alert">
               <p className={styles.errorTitle}>No se pudo analizar el archivo</p>
@@ -150,15 +197,11 @@ export function DataUploadScreen() {
               </li>
               <li>
                 <MaterialIcon name="check_circle" />
-                Procesamiento en el servidor (sin exponer su API key)
+                Procesamiento rápido y eficiente
               </li>
               <li>
                 <MaterialIcon name="info" />
-                ¿Necesita ayuda? Visite las{' '}
-                <Link className={styles.inlineLink} to="/ai-suggestions">
-                  sugerencias
-                </Link>{' '}
-                tras cargar un archivo.
+                Tras cargar el archivo, siga los pasos de la barra superior
               </li>
             </ul>
           </div>
