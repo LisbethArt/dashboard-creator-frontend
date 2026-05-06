@@ -83,7 +83,7 @@ export function HomeScreen() {
               Ventajas
             </a>
             <Link className={styles.navLink} to={DATA_UPLOAD_PATH}>
-              App
+              Portal
             </Link>
           </nav>
 
@@ -179,12 +179,12 @@ export function HomeScreen() {
                     <MaterialIcon name="bolt" filled className={styles.orbBoltCenter} />
                   </div>
                   <div className={styles.holoCardTop}>
-                    <span className={styles.holoLabel}>APY</span>
-                    <span className={styles.holoValueOrange}>12.5%</span>
+                    <span className={styles.holoLabel}>ROI</span>
+                    <span className={styles.holoValueOrange}>25.08%</span>
                   </div>
                   <div className={styles.holoCardBottom}>
-                    <span className={styles.holoLabel}>Total Volume</span>
-                    <span className={styles.holoValueGold}>$42.8B</span>
+                    <span className={styles.holoLabel}>Ingresos</span>
+                    <span className={styles.holoValueGold}>$17,000</span>
                   </div>
                 </div>
               </div>
@@ -212,28 +212,9 @@ export function HomeScreen() {
               <div className={styles.mockTop}>
                 <div>
                   <h3 className={styles.mockTitle}>Resumen ejecutivo de ventas</h3>
-                </div>
-                <div className={styles.mockTools}>
-                  <span className={styles.mockIconBtn}>
-                    <MaterialIcon name="tune" />
-                  </span>
-                  <span className={styles.mockIconBtn}>
-                    <MaterialIcon name="share" />
-                  </span>
-                </div>
-              </div>
-              <div className={styles.mockKpis}>
-                <div className={styles.mockKpi}>
-                  <span className={styles.mockKpiL}>ROI</span>
-                  <span className={styles.mockKpiV}>+24.8%</span>
-                </div>
-                <div className={styles.mockKpi}>
-                  <span className={styles.mockKpiL}>Estabilidad</span>
-                  <span className={styles.mockKpiV2}>Alta</span>
-                </div>
-                <div className={styles.mockKpi}>
-                  <span className={styles.mockKpiL}>Alertas</span>
-                  <span className={styles.mockKpiE}>2</span>
+                  <p className={styles.mockSub}>
+                    Los 3 clientes principales concentran el 68% de los ingresos totales del semestre, se recomienda implementar un plan de fidelización para estos clientes.
+                  </p>
                 </div>
               </div>
               <div className={styles.mockChart}>
@@ -434,7 +415,7 @@ export function HomeScreen() {
               </span>
               <span className={styles.footerBrandName}>Análisis al Instante</span>
             </div>
-            <p className={styles.footerTagline}>De la hoja de cálculo al informe, sin fricción.</p>
+            <p className={styles.footerTagline}>De la hoja de cálculo al informe, sin esfuerzos extras.</p>
             <time className={styles.footerCopy} dateTime={String(year)}>
               © {year} {AUTHOR_FOOTER_DISPLAY_NAME}
             </time>
@@ -448,7 +429,7 @@ export function HomeScreen() {
               Cómo funciona
             </a>
             <Link to={DATA_UPLOAD_PATH} className={styles.footerLink}>
-              App
+              Portal
             </Link>
           </div>
           <div className={styles.footerSocial}>

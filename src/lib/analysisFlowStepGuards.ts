@@ -13,6 +13,13 @@ export type AnalysisFlowGuardContext = {
 }
 
 /**
+ * Step 4 (dashboard preview) is reachable only after a successful upload and AI analysis.
+ */
+export function canReachAnalysisFlowStepFour(ctx: AnalysisFlowGuardContext): boolean {
+  return blockedReasonForAnalysisStep(DASHBOARD_PATH, DATA_UPLOAD_PATH, ctx) === null
+}
+
+/**
  * When non-null, navigation to `targetPath` must be blocked (with this reason for UI).
  */
 export function blockedReasonForAnalysisStep(
